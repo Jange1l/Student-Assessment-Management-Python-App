@@ -11,6 +11,7 @@
   
  
 **Login App:**
+  - home page
   - student login page
   - professor login page
   - student dashboard page
