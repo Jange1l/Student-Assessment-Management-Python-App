@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Professor Dashboard</title>
+</head>
+<body>
+
+
+	
+		
+{% if messages %}
+
+	{% for message in messages %}
+	   <h1>{{ message }}</h1>
+	{% endfor %}
+
+{% endif %}
+
+
+<h1>Prof Dashboard</h1>
+<p>123</p>
+<h3>Email: {{ user }}</h3>
+<h3>Eagle_id: {{ user.eagle_id }}</h3>
+
+
+</body>
+</html>
