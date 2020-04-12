@@ -16,7 +16,7 @@
   - professor login page
   - student dashboard page
   - professor dashboard page
-  - 
+  - password reset page
 
 
 **Evaluation App:**
