@@ -19,4 +19,9 @@
   - password reset page
 
 
-**Evaluation App:**
+**Eval_student App:**
+  - peer assessments page
+ 
+ 
+**Eval_professor App:**
+  - all assessments page
