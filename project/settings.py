@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account',
     'login',
+    'eval_student',
+    'eval_professor',
 ]
 
 # Model for authentication
