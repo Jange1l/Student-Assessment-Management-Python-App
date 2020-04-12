@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.views.decorators.cache import cache_control
@@ -29,6 +30,10 @@ def student_dashboard(request):
 # Instructor Dashboard Page
 def professor_dashboard(request):
     return render(request, 'login/professor-dashboard.html')
+
+
+def password_reset(request):
+    return render(request, 'login/password-reset.html')
 
 
 # *************************** LOGIN ***************************
@@ -78,8 +83,30 @@ def log_in(request):
                 return redirect('/professor-login')
     
 
-# *************************** LOGOUT***************************
+# *************************** LOGOUT ***************************
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def log_out(request):
     logout(request)
     return redirect('/')
+
+
+# *************************** CHANGE PASSWORD ***************************
+def change_password(request):
+    old_password = request.POST['old_password']
+    new_password = request.POST['new_password']
+    confirm_password = request.POST['confirm_password']
+    
+    user = request.user # get the current user object
+    if user.check_password(old_password): # enter current password for validation
+        if len(new_password) >= 8:
+            if new_password == confirm_password:
+                user.set_password(new_password)
+                user.save()
+                print('Successful Password Reset')
+                return redirect('/')
+        else:
+            messages.error(request, 'Your password must be longer than 8 characters.')
+            return redirect(request.META.get('HTTP_REFERER')) # stay on same page
+    else:
+        messages.error(request, 'You incorrectly entered your current password.')
+        return redirect(request.META.get('HTTP_REFERER')) # stay on same page
