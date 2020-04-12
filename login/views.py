@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib import messages
 from django.utils.translation import ugettext as _
+from django.views.decorators.cache import cache_control
 
 
 # Home Page
@@ -78,3 +79,7 @@ def log_in(request):
     
 
 # *************************** LOGOUT***************************
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def log_out(request):
+    logout(request)
+    return redirect('/')

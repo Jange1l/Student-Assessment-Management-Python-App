@@ -1,3 +1,20 @@
+.error-box {
+  background-color: black;
+  border-radius: 4px;
+  position: absolute;
+  left: 25%;
+  top: 25px;
+  padding: 6px 200px 6px 20px;
+  z-index: 100;
+  opacity: 80%;
+  font-weight: 400;
+}
+
+.error-message {
+  font-size: 20px;
+  color: white;
+}
+
 /* -------------------- The side navigation menu ------------------ */
 .sidenav {
     height: 100%; /* 100% Full-height */
@@ -82,7 +99,7 @@
 /* -------------------- Logout button ------------------ */
   .logout-btn {
     position: absolute;
-    top: 23px;
+    top: 26px;
     right: 28px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -98,6 +115,7 @@
     cursor: pointer;
     text-align: center;
     width: 100px;
+    text-decoration: none;
   }  
 
   .logout-btn:hover {
@@ -107,6 +125,8 @@
     -o-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     background-color: rgb(207, 200, 200);
+    color: #9391de;
+    text-decoration: none;
   }
 
 
