@@ -1,3 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-# Create your views here.
+
+# Peer Assessments Page
+def peer_assessments(request):
+    return render(request, 'eval_student/peer-assessments.html')

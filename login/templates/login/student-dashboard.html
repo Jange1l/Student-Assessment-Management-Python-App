@@ -39,7 +39,10 @@
 		<a href="{% url 'student-dashboard' %}">
 			<i class = "fa fa-home"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home
 		</a>
-		<a href="#"><i class = "fa fa-bar-chart"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Peer Assessments</a>
+		<!-- peer-assessments links to a page in the eval_student app -->
+		<a href="{% url 'peer-assessments' %}">
+			<i class = "fa fa-bar-chart"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Peer Assessments
+		</a>
 		<a href="#"><i class = "fa fa-book"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Completed</a>
 		<a href="{% url 'password-reset' %}">
 			<i class = "fa fa-key"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password Reset
