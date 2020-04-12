@@ -17,10 +17,11 @@
 	
 	<!-- CSS and JS -->
 	<link rel="stylesheet" href="{% static 'eval_student/css/dashboard.css' %}">
-	<link rel="stylesheet" href="{% static 'eval_student/css/peer-assessments.css' %}">
+    <link rel="stylesheet" href="{% static 'eval_student/css/peer-assessments.css' %}">
+    <link rel="stylesheet" href="{% static 'eval_student/css/completed-assessments.css' %}">
 	<script src="{% static 'eval_student/js/dashboard.js' %}"></script>
 
-    <title>Your Peer Assessments</title>
+    <title>Your Completed Assessments</title>
   </head>
 
 <body>
@@ -63,31 +64,47 @@
 	<!-- Other page content to the right of the NAV BAR -->
 	<div id="main">
 		<div class="container title-box">
-			<h3>{{ user.first_name }}'s Peer Assessments</h3>
+			<h3>{{ user.first_name }}'s Completed Assessments</h3>
 		</div>
 		<div class="container">
-			<div class="container to-do">
-				<h2>To-Do</h2>
+			<div class="container completed">
+				<h2>Completed</h2>
 			</div>
 			<div class="row first-row">
-			  <a class="col-box" href="#">
-				<h5 class="title-displayed"> <b>Delivery 6 Assessments</b> </h5>
-				<h6 class="date-displayed"> <b>Due Date:</b> April 12th 2020 </h6>
-				<h6 class="text-displayed"> Click here to start </h6>
-			  </a>
+			  <div class="col-box-completed">
+				<h5 class="title-displayed"> <b>Delivery 1 Assessments</b> </h5>
+				<h6 class="date-displayed"> <b>Due Date:</b> March 13th 2020 </h6>
+                <h6 class="score-displayed"> <b>Overall:</b> 3/5 </h6>
+                <h6 class="note-displayed"> <b>Teacher's Note:</b> Not bad </h6>
+              </div>
+
+              <div class="col-box-completed">
+				<h5 class="title-displayed"> <b>Delivery 2 Assessments</b> </h5>
+				<h6 class="date-displayed"> <b>Due Date:</b> March 23rd 2020 </h6>
+                <h6 class="score-displayed"> <b>Overall:</b> 5/5 </h6>
+                <h6 class="note-displayed"> <b>Teacher's Note:</b> Good </h6>
+              </div>
+
+              <div class="col-box-completed">
+				<h5 class="title-displayed"> <b>Delivery 3 Assessments</b> </h5>
+				<h6 class="date-displayed"> <b>Due Date:</b> March 28th 2020 </h6>
+                <h6 class="score-displayed"> <b>Overall:</b> 5/5 </h6>
+                <h6 class="note-displayed"> <b>Teacher's Note:</b> Good </h6>
+              </div>
+
+              <div class="col-box-completed">
+				<h5 class="title-displayed"> <b>Delivery 4 Assessments</b> </h5>
+				<h6 class="date-displayed"> <b>Due Date:</b> April 1st 2020 </h6>
+                <h6 class="score-displayed"> <b>Overall:</b> 5/5 </h6>
+                <h6 class="note-displayed"> <b>Teacher's Note:</b> Good </h6>
+              </div>
+
+
+              
 			</div>
 
-			<div class="container missed">
-				<h2>Missed</h2>
-			</div>
-			<div class="row second-row">
-			  <div class="col-box-missed">
-				<h5 class="title-displayed"> <b>Delivery 5 Assessments</b> </h5>
-				<h6 class="date-displayed"> <b>Due Date:</b> April 2nd 2020 </h6>
-				<h6 class="text-displayed"> 0/5 </h6>
-			  </div>
-			</div>
-		  </div>
+			
+		</div>
 	</div>
 	<!-- have the side bar open in the initial state -->
 	<script>

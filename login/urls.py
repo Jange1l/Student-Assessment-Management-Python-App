@@ -21,4 +21,5 @@ urlpatterns = [
 
     # -------------- path to other Apps ----------------------------
     path('peer-assessments', eval_student.views.peer_assessments, name='peer-assessments'), # eval_student app
+    path('completed-assessments', eval_student.views.completed_assessments, name='completed-assessments'), # eval_student app
 ]
