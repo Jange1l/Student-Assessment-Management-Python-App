@@ -12,6 +12,11 @@ def create_new_assessment(request):
     return render(request, 'eval_professor/create-new-assessment.html')
 
 
+# My Courses Page
+def my_courses(request):
+    return render(request, 'eval_professor/my-courses.html')
+
+
 # Create New Course Page
 def create_new_course(request):
     return render(request, 'eval_professor/create-new-course.html')
