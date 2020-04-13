@@ -12,7 +12,7 @@ class Course(models.Model):
     id = models.AutoField(primary_key=True)
     index = models.IntegerField("course index", null=True) # can be used in view to create course index
     course_name = models.CharField("course name", max_length=60)
-    course_code = models.IntegerField("course code")
+    course_code = models.IntegerField("course code", unique=True)
     section_number = models.SmallIntegerField("section number")
     year = models.SmallIntegerField("year of realization")
     semester_choices = (

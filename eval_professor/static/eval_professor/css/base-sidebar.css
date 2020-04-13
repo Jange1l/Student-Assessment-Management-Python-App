@@ -194,3 +194,47 @@ body {
   display: block;
   margin: auto;
 }
+
+
+/* ---buttons------ */
+.buttons {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  line-height: 0px;
+  color: #f3f4f4;
+  padding: 20px;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.buttons:hover {
+  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  -ms-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  -o-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  text-decoration: none;
+}
+
+.purple {
+  border: 1px solid #6f6de5;
+  background-color: #6f6de5;
+}
+
+.purple:hover {
+  border: 1px solid #6f6de5;
+  background-color: #6f6de5;
+}
+
+.red {
+  border: 1px solid #d94122;
+  background-color: #d94122;
+}
+
+.red:hover {
+  border: 1px solid #d94122;
+  background-color: #d94122;
+}
