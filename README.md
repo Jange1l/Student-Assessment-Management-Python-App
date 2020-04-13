@@ -38,5 +38,6 @@
 **Eval_professor App:**
   - all assessments page
   - create new assessment page
+  - my courses page
   - create new course page
   - teams & students page
