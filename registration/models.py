@@ -9,8 +9,6 @@ import datetime
 
 # ------------------------- COURSE MODEL -----------------------------------------
 class Course(models.Model):
-    id = models.AutoField(primary_key=True)
-    index = models.IntegerField("course index", null=True) # can be used in view to create course index
     course_name = models.CharField("course name", max_length=60)
     course_code = models.IntegerField("course code", unique=True)
     section_number = models.SmallIntegerField("section number")
@@ -20,6 +18,20 @@ class Course(models.Model):
         ('F', 'Fall'),
     )
     semester = models.CharField("semester of realization", max_length = 1, choices = semester_choices)
+
+    def get_id(self):
+        """
+        Returns a combined ID.
+        """
+        return "{}{}{}{}".format(self.course_code, self.section_number,
+                                    self.year, self.semester)
+
+
+    def is_duplicate(self, id_compare):
+        """
+        Not finished
+        """
+        return self.get_id() == id_compare
 
 
     def is_active(self):

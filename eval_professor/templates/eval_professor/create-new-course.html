@@ -8,33 +8,34 @@
 	<!-- Other page content to the right of the NAV BAR -->
 	<div id="main">
 		<h2>Create New Course</h2>
-		<form>
+		<form action="{% url 'make_new_course' %}" method="post">
 			<div class="form-group">
 			  <label>Course Name</label>
-			  <input type="text" class="form-control" placeholder="Name this course">
+			  {% csrf_token %}
+			  <input type="text" class="form-control" name="course name" placeholder="Name this course">
 			</div>
 
 			<div class="form-group">
 				<label>Course Code</label>
-				<input type="number" class="form-control" id="courseCode" aria-describedby="courseCodeHelp" placeholder="Create a course code">
+				<input type="number" class="form-control" name="course code" id="courseCode" aria-describedby="courseCodeHelp" placeholder="Create a course code">
 				<small id="courseCodeHelp" class="form-text text-muted">Course code helps to identify this course.</small>
 			</div>
 
 			<div class="form-group">
 				<label for="sectionNumber">Section Number</label>
-				<input type="number" class="form-control" id="sectionNumber" aria-describedby="sectionNumberHelp" placeholder="Create a section number">
+				<input type="number" class="form-control" name="section number" id="sectionNumber" aria-describedby="sectionNumberHelp" placeholder="Create a section number">
 				<small id="sectionNumberHelp" class="form-text text-muted">Section number helps to identify this course.</small>
 			</div>  
 
 			<div class="form-group">
 				<label for="year">Year of Realization</label>
-				<input type="number" min="1900" max="2099" step="1" class="form-control" id="year" aria-describedby="yearHelp" placeholder="Enter year of realization">
+				<input type="number" min="1900" max="2099" step="1" class="form-control" name="year" id="year" aria-describedby="yearHelp" placeholder="Enter year of realization">
 				<small id="yearHelp" class="form-text text-muted">Year of realization indicates the year that this course ends.</small>
 			</div>
 
 			<div class="form-group">
 				<label for="semester">Semester of Realization</label>
-				<select class="form-control" id="semester">
+				<select class="form-control" name="semester" id="semester">
 					<option>Fall</option>
 					<option>Spring</option>
 				</select>
