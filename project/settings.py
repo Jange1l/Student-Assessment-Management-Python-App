@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'account',
+    'account',  # User Model
     'login',
     'eval_student',
     'eval_professor',
+    'registration',  # Course, Team Model
+    'assessment',      # Question Model
 ]
 
 # Model for authentication
