@@ -21,6 +21,7 @@
 
 **Eval_student App:**
   - peer assessments page
+  - completed assessments page
  
  
 **Eval_professor App:**
