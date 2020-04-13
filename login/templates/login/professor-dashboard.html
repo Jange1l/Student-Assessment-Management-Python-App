@@ -37,7 +37,7 @@
 	<div id="mySidenav" class="sidenav">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class = "fa fa-angle-left"></i></a>
 		<a href="{% url 'professor-dashboard' %}">
-			<i class = "fa fa-home"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home
+			<i class = "fa fa-home"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home
 		</a>
 		<a href="{% url 'all-assessments' %}">
 			<i class = "fa fa-bar-chart"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All Assessments
@@ -45,11 +45,14 @@
 		<a href="{% url 'create-new-assessment' %}">
 			<i class = "fa fa-plus-square"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create New Assessment
 		</a>
+		<a href="{% url 'create-new-course' %}">
+			<i class = "fa fa-graduation-cap"></i> &nbsp;&nbsp;&nbsp;&nbsp;Create New Course
+		</a>
 		<a href="{% url 'teams-students' %}">
-			<i class = "fa fa-group"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teams & Students
+			<i class = "fa fa-group"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teams & Students
 		</a>
 		<a href="{% url 'password-reset' %}">
-			<i class = "fa fa-key"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password Reset
+			<i class = "fa fa-key"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password Reset
 		</a>
 	</div>
 	

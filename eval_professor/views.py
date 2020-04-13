@@ -10,6 +10,11 @@ def all_assessments(request):
 def create_new_assessment(request):
     return render(request, 'eval_professor/create-new-assessment.html')
 
+
+# Create New Course Page
+def create_new_course(request):
+    return render(request, 'eval_professor/create-new-course.html')
+
     
 # Teams & Students Page
 def teams_students(request):
