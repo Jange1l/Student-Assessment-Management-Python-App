@@ -39,8 +39,15 @@
 		<a href="{% url 'professor-dashboard' %}">
 			<i class = "fa fa-home"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home
 		</a>
-		<a href="#"><i class = "fa fa-bar-chart"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All Assessments</a>
-		<a href="#"><i class = "fa fa-group"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teams & Students</a>
+		<a href="{% url 'all-assessments' %}">
+			<i class = "fa fa-bar-chart"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All Assessments
+		</a>
+		<a href="{% url 'create-new-assessment' %}">
+			<i class = "fa fa-plus-square"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create New Assessment
+		</a>
+		<a href="{% url 'teams-students' %}">
+			<i class = "fa fa-group"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Teams & Students
+		</a>
 		<a href="{% url 'password-reset' %}">
 			<i class = "fa fa-key"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password Reset
 		</a>
