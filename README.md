@@ -25,11 +25,11 @@
   - home page
   - student login page
   - professor login page
-  - student dashboard page
   - password reset page
 
 
 **Eval_student App:**
+  - student dashboard page
   - peer assessments page
   - completed assessments page
  
