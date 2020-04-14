@@ -1,6 +1,6 @@
   
 $(document).ready(function(){
-    $('.pass_show').append('<span class="ptxt">Show</span>');  
+    $('.pass_show').append('<span class="ptxt">Hide</span>');  
     });
       
     

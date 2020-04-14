@@ -3,22 +3,6 @@ body {
   background-color: #f3f4f4;
 }
 
-.error-box {
-  background-color: black;
-  border-radius: 4px;
-  position: absolute;
-  left: 25%;
-  top: 25px;
-  padding: 6px 200px 6px 20px;
-  z-index: 100;
-  opacity: 80%;
-  font-weight: 400;
-}
-
-.error-message {
-  font-size: 20px;
-  color: white;
-}
 
 /* -------------------- The side navigation menu ------------------ */
 .sidenav {
@@ -75,9 +59,10 @@ body {
     .sidenav a {font-size: 18px;}
   }
 
-/* -------------------- END ------------------ */
+/* -------------------- side menu styles END ------------------ */
 
-  span{
+/* the menu button to open the side bar */
+  .menu {
     top: 0px;
     left: 15px;
     font-size: 5px;
@@ -91,9 +76,10 @@ body {
     text-align: center;
   }
 
-  span:hover {
+  .menu:hover {
     color: #4a49ac;
   }
+
 
 
 /* -------------------- Logout button ------------------ */
@@ -130,7 +116,7 @@ body {
   }
 
 
-/* -------------------- GRIDS ------------------ */
+/* -------------------- Dashboard Page - GRIDS ------------------ */
 
 .row {
   position: relative;
@@ -194,3 +180,53 @@ body {
   display: block;
   margin: auto;
 }
+
+
+/* ---buttons------ */
+.buttons {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  line-height: 0px;
+  color: #f3f4f4;
+  padding: 20px;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.buttons:hover {
+  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  -ms-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  -o-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  text-decoration: none;
+}
+
+.purple {
+  border: 1px solid #6f6de5;
+  background-color: #6f6de5;
+}
+
+.purple:hover {
+  border: 1px solid #6f6de5;
+  background-color: #6f6de5;
+}
+
+.red {
+  border: 1px solid #d94122;
+  background-color: #d94122;
+}
+
+.red:hover {
+  border: 1px solid #d94122;
+  background-color: #d94122;
+}
+
+
+.alert {
+  display: inline-block !important;
+}
+
