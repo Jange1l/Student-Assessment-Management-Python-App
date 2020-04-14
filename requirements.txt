@@ -50,6 +50,8 @@ pygame==1.9.6
 PyGetWindow==0.0.8
 Pygments==2.3.0
 pylint==2.4.4
+pylint-django==2.0.14
+pylint-plugin-utils==0.6
 PyMsgBox==1.0.7
 pynput==1.6.7
 pyobjc==6.1
@@ -177,7 +179,7 @@ qtconsole==4.4.3
 scikit-learn==0.22.1
 scipy==1.2.0
 Send2Trash==1.5.0
-six==1.11.0
+six==1.14.0
 sqlparse==0.3.0
 terminado==0.8.1
 testpath==0.4.2
