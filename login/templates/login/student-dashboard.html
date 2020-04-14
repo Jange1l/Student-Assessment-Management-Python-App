@@ -27,9 +27,12 @@
 	<!-- Error Message -->
 	{% if messages %}
 		{% for message in messages %}
-		<div class="error-box">
-		<h1 class="error-message">{{ message }}</h1>
-		</div>
+		<div style="display: inline-block; left: 60%;" class="alert alert-warning alert-dismissible fade show" role="alert">
+				{{ message }}
+				<button style="display: inline-block; font-size: large; top: 0px;" type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
 		{% endfor %}
 	{% endif %}
 
@@ -52,7 +55,7 @@
 	</div>
 	
 	<!-- Use any element to open the sidenav -->
-	<span style="font-size:20px;cursor:pointer" onclick="openNav()"><i class = "fa fa-bars"></i>&nbsp;&nbsp;Menu</span>
+	<span class="menu" style="font-size:20px;cursor:pointer" onclick="openNav()"><i class = "fa fa-bars"></i>&nbsp;&nbsp;Menu</span>
 	
 	<!-- LOGOUT button -->
 	<div class="logout_btn_container">

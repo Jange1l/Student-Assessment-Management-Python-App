@@ -13,5 +13,5 @@ urlpatterns = [
     
     # path for functions
     path('make_new_course', views.make_new_course, name='make_new_course'),
-    
+    path('delete_course/<int:course_id>/', views.delete_course, name='delete_course'),
 ]

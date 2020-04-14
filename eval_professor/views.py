@@ -1,4 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+
+# models imported from other apps
 from registration.models import Course
 
 
@@ -14,7 +17,11 @@ def create_new_assessment(request):
 
 # My Courses Page
 def my_courses(request):
-    return render(request, 'eval_professor/my-courses.html')
+    course_list = Course.objects.all()
+    context = {
+        'course_list': course_list,
+    }
+    return render(request, 'eval_professor/my-courses.html', context = context)
 
 
 # Create New Course Page
@@ -49,5 +56,19 @@ def make_new_course(request):
                     semester = semester_initial
                     )
     course.save()
+    messages.error(request, 'New course creation is successful!')
     print("Create Course Success")
     return redirect('/professor-dashboard')
+
+
+# Delete a course
+def delete_course(request, course_id):
+    course = get_object_or_404(Course, pk=course_id)
+    course.delete()
+    messages.error(request, 'Course deleted.')
+    print("Course Deleted")
+    course_list = Course.objects.all()
+    context = {
+        'course_list': course_list,
+    }
+    return render(request, 'eval_professor/my-courses.html', context = context)
