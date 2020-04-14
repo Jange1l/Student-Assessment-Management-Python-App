@@ -5,6 +5,7 @@ from django.conf.urls import url
 
 urlpatterns = [
     # path for pages
+    path('professor-dashboard', views.professor_dashboard, name='professor-dashboard'),
     path('all-assessments', views.all_assessments, name='all-assessments'),
     path('create-new-assessment', views.create_new_assessment, name='create-new-assessment'),
     path('my-courses', views.my_courses, name='my-courses'),

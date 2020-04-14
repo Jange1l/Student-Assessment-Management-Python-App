@@ -5,6 +5,11 @@ from django.contrib import messages
 from registration.models import Course
 
 
+# Instructor Dashboard Page
+def professor_dashboard(request):
+    return render(request, 'eval_professor/professor-dashboard.html')
+
+
 # All Assessments Page
 def all_assessments(request):
     return render(request, 'eval_professor/all-assessments.html')
@@ -58,7 +63,7 @@ def make_new_course(request):
     course.save()
     messages.error(request, 'New course creation is successful!')
     print("Create Course Success")
-    return redirect('/professor-dashboard')
+    return redirect('professor-dashboard')
 
 
 # Delete a course

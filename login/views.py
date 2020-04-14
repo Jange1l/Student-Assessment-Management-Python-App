@@ -27,11 +27,6 @@ def student_dashboard(request):
     return render(request, 'login/student-dashboard.html')
 
 
-# Instructor Dashboard Page
-def professor_dashboard(request):
-    return render(request, 'login/professor-dashboard.html')
-
-
 def password_reset(request):
     return render(request, 'login/password-reset.html')
 
@@ -76,7 +71,7 @@ def log_in(request):
             # NORMAL CASE: instructor logs in on professor-login
             elif request.META['HTTP_REFERER'].endswith('professor-login'):
                 login(request, user)
-                return redirect('/professor-dashboard')
+                return redirect('professor/professor-dashboard')
             # WRONG EMAIL OR PASSWORD
             else:
                 messages.error(request, 'You entered your email or password incorrectly.')
