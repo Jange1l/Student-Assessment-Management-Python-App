@@ -26,7 +26,6 @@
   - student login page
   - professor login page
   - student dashboard page
-  - professor dashboard page
   - password reset page
 
 
@@ -36,6 +35,7 @@
  
  
 **Eval_professor App:**
+  - professor dashboard page
   - all assessments page
   - create new assessment page
   - my courses page
