@@ -7,25 +7,36 @@
 {% block content%}
 	<!-- Other page content to the right of the NAV BAR -->
 	<div id="main">
-		<div class="container">
-			<h1 style="color: red;">Bad looking course page for testing</h1>
+		<div class="container title-box">
+			<h3>{{ user.first_name }}'s Courses</h3>
 		</div>
 		<div class="container">
+			<div class="container to-do">
+				<h2>Current Courses</h2>
+			</div>
 			{% if course_list %}
-				<ul>
-				{% for course in course_list %}
-					<h2>{{ course.id }}</h2>
-					<h2>{{ course.course_name }}</h2>
-					<h3>{{ course.course_code }}</h3>
-					<h3>{{ course.section_number }}</h3>
-					<h3>{{ course.year }}</h3>
-					<h3>{{ course.semester }}</h3>
-					<a href="{% url 'delete_course' course_id=course.id %}">Delete</a>
-				{% endfor %}
-				</ul>
+					
+			{% for course in course_list %}
+			<div class="row first-row">
+			
+			  <a class="col-box" href="#">	
+						<h2> <b>Course Name:</b> {{ course.course_name }}</h2>
+						<h4> <b>Course Code:</b> {{ course.course_code }}</h4>
+						<h4> <b>Course Section:</b> {{ course.section_number }}</h4>
+						<h4> <b>Year:</b> {{ course.year }}</h4>
+						<h4> <b>Semester:</b> {{ course.semester }}</h4>
+			  </a>
+			  <a style="top: 100px; display: inline-block;" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
+			
+			</div>
+			{% endfor %}
+					
 			{% else %}
 				<p>No courses are available.</p>
 			{% endif %}
+
+		  </div>
+
 		</div>
 		
 		
