@@ -18,6 +18,8 @@ class Course(models.Model):
         ('F', 'Fall'),
     )
     semester = models.CharField("semester of realization", max_length = 1, choices = semester_choices)
+    professors = models.ManyToManyField(User)
+
 
     def get_id(self):
         """
@@ -29,7 +31,7 @@ class Course(models.Model):
 
     def is_duplicate(self, id_compare):
         """
-        Not finished
+        Returns if the id passed in is a duplicate.
         """
         return self.get_id() == id_compare
 
@@ -60,11 +62,3 @@ class Team(models.Model):
 
 
 
-# ------------------------- TEACHING_CREW MODEL -----------------------------------------
-class Teaching_Crew(models.Model):
-    """
-    This model allows one course to have multiple professors.
-    """
-    # Primary Key is the auto-generated IDs
-    course = models.ForeignKey(Course, on_delete = models.CASCADE) # a Course object
-    professor = models.ForeignKey(User, on_delete = models.CASCADE) # a User object

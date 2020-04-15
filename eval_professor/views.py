@@ -3,6 +3,7 @@ from django.contrib import messages
 
 # models imported from other apps
 from registration.models import Course
+from account.models import User
 
 
 # Instructor Dashboard Page
@@ -47,9 +48,14 @@ def make_new_course(request):
     section_number = request.POST['section number']
     year = request.POST['year']
     semester = request.POST['semester']
+    co_professor_id = request.POST['co-professor ID']
+    # CAN CHANGE THIS TO SELECT CURRENT PROF
 
     course_name = course_name.title()
 
+    professor = request.user
+    
+ 
     # restrictions of inputs are in html
     # no need for validations of inputs in this current project
 
@@ -57,15 +63,27 @@ def make_new_course(request):
         semester_initial = 'F'
     else:
         semester_initial = 'S'
+
+    if co_professor_id != '':
+        co_professor = User.objects.filter(eagle_id=co_professor_id).first()
+        if co_professor is None:
+            messages.error(request, "You incorrectly entered the co-professor's ID.")
+            return redirect('create-new-course')
   
     course = Course(
                     course_name = course_name, 
                     course_code = course_code, 
                     section_number = section_number, 
                     year = year, 
-                    semester = semester_initial
+                    semester = semester_initial,
                     )
     course.save()
+
+    course.professors.add(professor)
+    if co_professor_id != '' and co_professor is not None:
+        course.professors.add(co_professor)
+    course.save()
+
     messages.error(request, 'New course creation is successful!')
     print("Create Course Success")
     return redirect('my-courses')
