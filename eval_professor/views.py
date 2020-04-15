@@ -63,7 +63,7 @@ def make_new_course(request):
     course.save()
     messages.error(request, 'New course creation is successful!')
     print("Create Course Success")
-    return redirect('professor-dashboard')
+    return redirect('my-courses')
 
 
 # Delete a course
