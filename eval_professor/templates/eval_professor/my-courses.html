@@ -11,30 +11,51 @@
 		<div class="container">
 			<h2 style="color: #6C63FF;">Current Courses</h2>
 		</div>
+
 		<div class="container">
 			{% if course_list %}
-
 				<!-- <div class="row"></div> -->
 					{% for course in course_list %}	
-					
-						<div class="column course-box">	
-									<h3> <b>Name:</b> {{ course.course_name }}</h3>
-									<h4> <b>Code:</b> {{ course.course_code }}</h4>
-									<h4> <b>Section:</b> {{ course.section_number }}</h4>
-									<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
-									<a class="buttons purple delete-btn" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
-						</div>
-
+						{% if course.is_active %}
+							<div class="column course-box">	
+										<h3> <b>Name:</b> {{ course.course_name }}</h3>
+										<h4> <b>Code:</b> {{ course.course_code }}</h4>
+										<h4> <b>Section:</b> {{ course.section_number }}</h4>
+										<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
+										<a class="buttons purple delete-btn" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
+							</div>
+						{% endif %}
 					{% endfor %}
 				<!-- </div>		 -->
-
 			{% else %}
 				<p>No courses are available. </p>
 			{% endif %}
-
 		</div>
 
+		<div class="container">
+			<h2 style="color: rgb(255, 99, 117); margin-top: 5%;">Past Courses</h2>
 		</div>
+
+		<div class="container">
+			{% if course_list %}
+				<!-- <div class="row"></div> -->
+					{% for course in course_list %}	
+						{% if not course.is_active %}
+							<div class="column course-box">	
+										<h3> <b>Name:</b> {{ course.course_name }}</h3>
+										<h4> <b>Code:</b> {{ course.course_code }}</h4>
+										<h4> <b>Section:</b> {{ course.section_number }}</h4>
+										<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
+										<a class="buttons purple delete-btn" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
+							</div>
+						{% endif %}
+					{% endfor %}
+				<!-- </div>		 -->
+			{% else %}
+				<p>No courses are available. </p>
+			{% endif %}
+		</div>
+		
 		
 		
 	</div>
