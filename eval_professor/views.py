@@ -53,34 +53,58 @@ def make_new_course(request):
 
     course_name = course_name.title()
 
+    # the professor registering must be the current user
     professor = request.user
-    
- 
-    # restrictions of inputs are in html
-    # no need for validations of inputs in this current project
 
+    # convert text to required format in the model
     if semester == 'Fall':
         semester_initial = 'F'
     else:
         semester_initial = 'S'
+ 
+    # Validations of input formatting are DONE in html templates
 
+    # Validation to prevent duplicate course
+    course_valid = False
+    if len(Course.objects.filter(course_code=course_code, 
+                            section_number=section_number, 
+                            year=year, 
+                            semester=semester_initial)) > 0:
+        messages.error(request, "Error: You cannot create duplicate courses.")
+        return redirect('create-new-course')
+    else:
+        course_valid = True
+
+    # Validations for co-professor
+    co_prof_valid = False
     if co_professor_id != '':
         co_professor = User.objects.filter(eagle_id=co_professor_id).first()
         if co_professor is None:
-            messages.error(request, "You incorrectly entered the co-professor's ID.")
+            messages.error(request, "Error: You incorrectly entered the co-professor's Eagle ID.")
             return redirect('create-new-course')
+        elif not co_professor.is_instructor:
+            messages.error(request, "Error: The co-professor's Eagle ID you entered is not a professor.")
+            return redirect('create-new-course')
+        elif co_professor_id == request.user.eagle_id:
+            messages.error(request, "Error: The co-professor's Eagle ID cannot be the same as your Eagle ID.")
+            return redirect('create-new-course')
+        else:
+            co_prof_valid = True
   
-    course = Course(
-                    course_name = course_name, 
-                    course_code = course_code, 
-                    section_number = section_number, 
-                    year = year, 
-                    semester = semester_initial,
-                    )
-    course.save()
+    if course_valid:
+    # Create an instance of course
+        course = Course(
+                        course_name = course_name, 
+                        course_code = course_code, 
+                        section_number = section_number, 
+                        year = year, 
+                        semester = semester_initial,
+                        )
+        course.save()
 
+    # Add to Many-to-Many field
     course.professors.add(professor)
-    if co_professor_id != '' and co_professor is not None:
+    if co_prof_valid:
         course.professors.add(co_professor)
     course.save()
 

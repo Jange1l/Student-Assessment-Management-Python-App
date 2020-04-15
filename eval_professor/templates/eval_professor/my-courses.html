@@ -16,11 +16,12 @@
 		<div class="container">
 			{% if course_list %}
 				<!-- <div class="row"></div> -->
-					{% for course in course_list %}	
+					{% for course in course_list|dictsort:"course_code" %}	
+						{% if request.user in course.professors.all %}
 						{% if course.is_active %}
 							<div class="column course-box">	
 										<h3> {{ course.course_name }}</h3>
-										{% for prof in course.professors.all %}
+										{% for prof in course.professors.all|dictsort:"first_name" %}
 										<h4> Professor {{ prof.first_name }} {{ prof.last_name }}</h4>
 										{% endfor %}
 										<h4> <b>Code:</b> {{ course.course_code }}</h4>
@@ -28,6 +29,7 @@
 										<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
 										<a class="buttons purple delete-btn" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
 							</div>
+						{% endif %}
 						{% endif %}
 					{% endfor %}
 				<!-- </div>		 -->
@@ -44,18 +46,20 @@
 		<div class="container">
 			{% if course_list %}
 				<!-- <div class="row"></div> -->
-					{% for course in course_list %}	
+					{% for course in course_list|dictsort:"course_code" %}	
+						{% if request.user in course.professors.all %}
 						{% if not course.is_active %}
 							<div class="column course-box">	
-								<h3> {{ course.course_name }}</h3>
-								{% for prof in course.professors.all %}
-								<h4> Professor {{ prof.first_name }} {{ prof.last_name }}</h4>
-								{% endfor %}
-								<h4> <b>Code:</b> {{ course.course_code }}</h4>
-								<h4> <b>Section:</b> {{ course.section_number }}</h4>
-								<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
-								<a class="buttons purple delete-btn" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
+										<h3> {{ course.course_name }}</h3>
+										{% for prof in course.professors.all|dictsort:"first_name" %}
+										<h4> Professor {{ prof.first_name }} {{ prof.last_name }}</h4>
+										{% endfor %}
+										<h4> <b>Code:</b> {{ course.course_code }}</h4>
+										<h4> <b>Section:</b> {{ course.section_number }}</h4>
+										<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
+										<a class="buttons purple delete-btn" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
 							</div>
+						{% endif %}
 						{% endif %}
 					{% endfor %}
 				<!-- </div>		 -->

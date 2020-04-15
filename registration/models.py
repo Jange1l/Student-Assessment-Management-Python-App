@@ -10,7 +10,7 @@ import datetime
 # ------------------------- COURSE MODEL -----------------------------------------
 class Course(models.Model):
     course_name = models.CharField("course name", max_length=60)
-    course_code = models.IntegerField("course code", unique=True)
+    course_code = models.IntegerField("course code")
     section_number = models.SmallIntegerField("section number")
     year = models.SmallIntegerField("year of realization")
     semester_choices = (
@@ -19,22 +19,6 @@ class Course(models.Model):
     )
     semester = models.CharField("semester of realization", max_length = 1, choices = semester_choices)
     professors = models.ManyToManyField(User)
-
-
-    def get_id(self):
-        """
-        Returns a combined ID.
-        """
-        return "{}{}{}{}".format(self.course_code, self.section_number,
-                                    self.year, self.semester)
-
-
-    def is_duplicate(self, id_compare):
-        """
-        Returns if the id passed in is a duplicate.
-        """
-        return self.get_id() == id_compare
-
 
     def is_active(self):
         "Returns whether the course is active."
@@ -50,15 +34,16 @@ class Course(models.Model):
 
 
 
+
 # ------------------------- TEAM MODEL -----------------------------------------
 class Team(models.Model):
     
     # Primary Key is the auto-generated IDs
-    team_number = models.IntegerField("team number")
+    team_number = models.IntegerField("team number") # maybe dont need this
     team_name = models.CharField("team name", max_length=60)
     
     course = models.ForeignKey(Course, on_delete = models.CASCADE) # a Course object
-    student = models.ForeignKey(User, on_delete = models.CASCADE) # a User object
+    student = models.ManyToManyField(User) # a querySet of User objects
 
 
 
