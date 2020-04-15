@@ -19,6 +19,7 @@ class Course(models.Model):
     )
     semester = models.CharField("semester of realization", max_length = 1, choices = semester_choices)
     professors = models.ManyToManyField(User)
+    students = models.ManyToManyField(User, related_name="students")
 
     def is_active(self):
         "Returns whether the course is active."

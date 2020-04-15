@@ -5,6 +5,10 @@ from django.contrib import messages
 from registration.models import Course
 from account.models import User
 
+# import Python packages
+from re import search as regex_search
+
+
 
 # Instructor Dashboard Page
 def professor_dashboard(request):
@@ -110,7 +114,7 @@ def make_new_course(request):
 
     messages.error(request, 'New course creation is successful!')
     print("Create Course Success")
-    return redirect('my-courses')
+    return my_courses(request)
 
 
 # Delete a course
@@ -119,8 +123,41 @@ def delete_course(request, course_id):
     course.delete()
     messages.error(request, 'Course deleted.')
     print("Course Deleted")
-    course_list = Course.objects.all()
-    context = {
-        'course_list': course_list,
-    }
-    return render(request, 'eval_professor/my-courses.html', context = context)
+    return my_courses(request) # refresh page
+
+
+
+def add_student(request, course_id):
+    id_or_email = request.POST['id or email']
+    eagle_id = ''
+    email = ''
+    valid_student = False
+    # check is it email format
+    regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+    if regex_search(regex,email):  
+        email = id_or_email  
+    # check is it eagle id format       
+    elif id_or_email.isdigit() and len(id_or_email) == 8:
+        eagle_id = id_or_email
+    else:
+        messages.error(request, "Error: The format of email or Eagle ID is incorrect.")
+    
+    # get course object
+    course = get_object_or_404(Course, pk=course_id)
+
+    # Validate the existance of the student
+    if eagle_id != '':
+        new_student = User.objects.filter(eagle_id = eagle_id).first()
+        valid_student = True
+    elif email != '':
+        new_student = User.objects.filter(email = email).first()
+        valid_student =True
+    else:
+        messages.error(request, "Error: Student is not found.")
+    
+    if valid_student:
+        course.students.add(new_student)
+        course.save()
+        print("student successfully added")
+
+    return my_courses(request) # refresh page
