@@ -48,6 +48,11 @@ def make_new_course(request):
     year = request.POST['year']
     semester = request.POST['semester']
 
+    course_name = course_name.title()
+
+    # restrictions of inputs are in html
+    # no need for validations of inputs in this current project
+
     if semester == 'Fall':
         semester_initial = 'F'
     else:

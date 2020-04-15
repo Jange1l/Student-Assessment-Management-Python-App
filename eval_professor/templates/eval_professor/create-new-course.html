@@ -12,24 +12,24 @@
 			<div class="form-group">
 			  <label>Course Name</label>
 			  {% csrf_token %}
-			  <input type="text" class="form-control" name="course name" placeholder="Name this course">
+			  <input type="text" required=True class="form-control" name="course name" placeholder="Name this course">
 			</div>
 
 			<div class="form-group">
 				<label>Course Code</label>
-				<input type="number" class="form-control" name="course code" id="courseCode" aria-describedby="courseCodeHelp" placeholder="Create a course code">
-				<small id="courseCodeHelp" class="form-text text-muted">Course code helps to identify this course.</small>
+				<input type="number" required=True min="1000" max="9999" step="1" class="form-control" name="course code" id="courseCode" aria-describedby="courseCodeHelp" placeholder="Create a course code">
+				<small id="courseCodeHelp" class="form-text text-muted">Requires a 4-digit number that does not start with 0. Course code helps to identify this course.</small>
 			</div>
 
 			<div class="form-group">
 				<label for="sectionNumber">Section Number</label>
-				<input type="number" class="form-control" name="section number" id="sectionNumber" aria-describedby="sectionNumberHelp" placeholder="Create a section number">
-				<small id="sectionNumberHelp" class="form-text text-muted">Section number helps to identify this course.</small>
+				<input type="number" required=True min="1" max="99" step="1" class="form-control" name="section number" id="sectionNumber" aria-describedby="sectionNumberHelp" placeholder="Create a section number">
+				<small id="sectionNumberHelp" class="form-text text-muted">Requires a number between 1 and 99. Section number helps to identify this course.</small>
 			</div>  
 
 			<div class="form-group">
 				<label for="year">Year of Realization</label>
-				<input type="number" min="1900" max="2099" step="1" class="form-control" name="year" id="year" aria-describedby="yearHelp" placeholder="Enter year of realization">
+				<input type="number" required=True min="1900" max="2099" step="1" class="form-control" name="year" id="year" aria-describedby="yearHelp" placeholder="Enter year of realization">
 				<small id="yearHelp" class="form-text text-muted">Year of realization indicates the year that this course ends.</small>
 			</div>
 
