@@ -11,5 +11,24 @@
 			<h1 style="color: red;">ADD TO THIS PAGE</h1>
 		</div>
 		
+
+
+
+
+		<!-- Important Solution for Grid System on Page  -->
+			<!-- because we must use a loop to show all data, we can learn from the following code to use the grid system in Bootstrap -->
+			<!-- When you do this part please take a look -->
+
+		<!-- <div class="container">
+			<div class="row">
+				{% for product in products %}
+					{% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
+					<div class="col">{{product.title}}</div>
+				{% endfor %}
+			</div>
+		</div> -->
+
+
+
 	</div>
 {% endblock %}
