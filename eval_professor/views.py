@@ -161,3 +161,13 @@ def add_student(request, course_id):
         print("student successfully added")
 
     return my_courses(request) # refresh page
+
+
+
+def remove_student(request, course_id, eagle_id):
+    course = Course.objects.get(pk=course_id)
+    student = User.objects.get(eagle_id=eagle_id)
+    course.students.remove(student)
+    course.save()
+    messages.error(request, "Student removed.")
+    return my_courses(request) # refresh page
