@@ -41,13 +41,18 @@ def create_new_course(request):
     
 # Teams & Students Page
 def teams_students(request):
-    team_list = Team.objects.all()
+    team_list = Team.objects.all().order_by('team_name')
+    course_list = Course.objects.all() # this info is needed for the dropdown select in creating new team
     context = {
         'team_list': team_list,
+        'course_list': course_list,
     }
     return render(request, 'eval_professor/teams-students.html', context = context)
 
 
+
+
+# ----------------------------------- Course Section (functions below are for courses) --------------
 
 # Function: create a new course
 def make_new_course(request):
@@ -132,6 +137,7 @@ def delete_course(request, course_id):
 
 
 def add_student(request, course_id):
+    # This is add student to course. There is another function add_student_to_team
     id_or_email = request.POST['id or email']
     eagle_id = ''
     email = ''
@@ -175,3 +181,30 @@ def remove_student(request, course_id, eagle_id):
     course.save()
     messages.error(request, "Student removed.")
     return my_courses(request) # refresh page
+
+
+
+# ----------------------------------- Team Section (functions below are for teams) --------------
+def add_new_team(request):
+    team_name = request.POST['team name']
+    course_id = request.POST['course id']
+
+    # Cap the first letter
+    team_name = team_name[0].upper() + team_name[1:]
+
+    # Create an instance of team
+    team = Team(
+                team_name = team_name, 
+                course = Course.objects.filter(id=course_id).first(), 
+                )
+    team.save()
+
+    return teams_students(request) # refresh page
+
+
+# Delete a team
+def delete_team(request, team_id):
+    team = get_object_or_404(Team, pk=team_id)
+    team.delete()
+    messages.error(request, 'Team deleted.')
+    return teams_students(request) # refresh page

@@ -2,32 +2,65 @@
 
 {% load static %}
 
-{% block title %} Teams & Students {% endblock %}
+{% block title %} Teams {% endblock %}
 
 {% block content%}
 	<!-- Other page content to the right of the NAV BAR -->
 	<div id="main">
 		<div class="container">
-			<h2>Teams</h2>
+			<h2>Teams in your courses</h2>
 
 			<!-- the following is for the collapse style to show student info -->
-			<div id="accordion">
+			<div style="margin-top: 2%;" id="accordion">
 				<div class="card">
 				  <div class="card-header" id="headingOne">
 					<h5 class="mb-0">
-					  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-						Collapsible Group Item #1
+					  <button style="color: #6C63FF;" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						Add A New Team
 					  </button>
 					</h5>
 				  </div>
 			  
-				  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+				  <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordion">
 					<div class="card-body">
-					  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						Enter information of the new team.
+						<!-- Form to take inputs -->
+						<form action="{% url 'add_new_team' %}" method="post">
+							<div class="container">
+									<div class="row align-items-end">
+										<div class="form-group col-5 col-md-5 " style="margin-bottom: 0;">
+											<label for="">Team Name</label>
+											{% csrf_token %}
+											<input name='team name' required=True maxlength="60" class="form-control" type="text">
+											<small class="form-text text-muted">Enter a name with less than 60 characters.</small>
+										</div>
+									</div>
+
+									<div class="row align-items-end" style="top: 0;">
+										<div class="form-group col-5 col-md-5 ">
+											<label for="courses">Select the course that this team is in.</label>
+											<select id="courses" name="course id" required=True  class="form-control" type="number">
+												{% for course in course_list %}
+													{% if course.is_active and request.user in course.professors.all %}
+														<option value="{{ course.id }}">{{ course.course_name }}</option>
+													{% endif %}
+												{% endfor %}
+											</select>
+											
+										</div>
+			
+										<div class="form-group col-6 col-md-2">
+											<button type="submit" class="btn btn-primary buttons purple">Add New Team</button>
+										</div>
+									</div>
+							</div>
+						</form>
+						<!-- Form Ends -->
 					</div>
 				  </div>
 				</div>
-				<div class="card">
+
+				<!-- <div class="card">
 				  <div class="card-header" id="headingTwo">
 					<h5 class="mb-0">
 					  <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -41,6 +74,7 @@
 					</div>
 				  </div>
 				</div>
+
 				<div class="card">
 				  <div class="card-header" id="headingThree">
 					<h5 class="mb-0">
@@ -54,7 +88,8 @@
 					  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 					</div>
 				  </div>
-				</div>
+				</div> -->
+
 			  </div>
 			<!-- collapse - student info END -->
 
@@ -70,16 +105,18 @@
 			<div class="row">
 				{% for team in team_list|dictsort:"course.id" %}
 					{% if request.user in team.course.professors.all %}
-						{% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-20"></div>{% endif %}
+						{% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
 
 						<!-- this div is the grid containing a team's info -->
 						<div class="col course-box">
-							<h3> {{team.team_name}}</h3>
-							<h4> in {{team.course.course_name}}</h4>
+							<h3 style="font-size: 20px;"> {{team.team_name}}</h3>
+							<h4 style="font-size: 13px;"> in {{team.course.course_name}}</h4>
 							<!-- show all students in this team  -->
 							{% for member in team.student.all|dictsort:"first_name" %}
 							<h4> {{ member.first_name }} {{ member.last_name }}</h4>
 							{% endfor %}
+							
+							<a style="font-size: 10px; padding: 10px;" class="buttons purple delete-btn" href="{% url 'delete_team' team_id=team.id %}">Delete</a>
 						</div>
 
 					{% endif %}
