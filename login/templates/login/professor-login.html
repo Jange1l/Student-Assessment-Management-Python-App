@@ -22,7 +22,7 @@
       <h2>Professor Login</h2>
       <form action="{% url 'log_in' %}" method="post">
         {% csrf_token %}
-        <input class="login-input" type="text" name="email" placeholder="Email  Address *">
+        <input class="login-input" type="text" name="email" placeholder="Email Address *">
         <input class="login-input" type="password" name="password" placeholder="Password *">
         <button class="buttons" type="submit"> Login </button>
       </form>
