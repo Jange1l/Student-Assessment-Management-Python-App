@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 
 # models imported from other apps
-from registration.models import Course
+from registration.models import Course, Team
 from account.models import User
 
 # import Python packages
@@ -41,7 +41,11 @@ def create_new_course(request):
     
 # Teams & Students Page
 def teams_students(request):
-    return render(request, 'eval_professor/teams-students.html')
+    team_list = Team.objects.all()
+    context = {
+        'team_list': team_list,
+    }
+    return render(request, 'eval_professor/teams-students.html', context = context)
 
 
 
