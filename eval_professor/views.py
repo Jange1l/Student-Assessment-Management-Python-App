@@ -236,6 +236,15 @@ def add_student_to_team(request, team_id):
         valid_student = True
     else:
         messages.error(request, "Error: Student is not found.")
+
+    # Validate if the student is already in another team
+    if valid_student:
+        course = team.course # the course object
+        team_list = Team.objects.filter(course=course) # list of teams in this course
+        for team in team_list:
+            if len(team.student.filter(eagle_id=eagle_id)) > 0:
+                messages.error(request, "Error: This student is already in a team ({})".format(team.team_name))
+                valid_student = False
     
     if valid_student:
         team.student.add(new_student)
