@@ -143,8 +143,9 @@ def add_student(request, course_id):
     email = ''
     valid_student = False
     # check is it email format
-    regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
-    if regex_search(regex,email):  
+    # regex = '^[w-.]+@([w-]+.)+[w-]{2,4}$'
+    # print(regex_search(regex,email))
+    if regex_search(r'@bc.edu', id_or_email) is not None:  
         email = id_or_email  
     # check is it eagle id format       
     elif id_or_email.isdigit() and len(id_or_email) == 8:
@@ -192,12 +193,23 @@ def add_new_team(request):
     # Cap the first letter
     team_name = team_name[0].upper() + team_name[1:]
 
+    # Validations
+    team_valid = False
+
+    # Check for duplicate names
+    if len(Team.objects.filter(team_name=team_name)) > 0:
+         messages.error(request, "Error: The team name you entered has already been taken.")
+
+    else:
+        team_valid = True
+
     # Create an instance of team
-    team = Team(
-                team_name = team_name, 
-                course = Course.objects.filter(id=course_id).first(), 
-                )
-    team.save()
+    if team_valid:
+        team = Team(
+                    team_name = team_name, 
+                    course = Course.objects.filter(id=course_id).first(), 
+                    )
+        team.save()
 
     return teams_students(request) # refresh page
 
@@ -208,3 +220,50 @@ def delete_team(request, team_id):
     team.delete()
     messages.error(request, 'Team deleted.')
     return teams_students(request) # refresh page
+
+
+# # Add a student to a team
+# def add_student(request, team_id):
+#     id_or_email = request.POST['id or email']
+#     eagle_id = ''
+#     email = ''
+#     valid_student = False
+#     # check is it email format
+#     regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+#     if regex_search(regex,email):  
+#         email = id_or_email  
+#     # check is it eagle id format       
+#     elif id_or_email.isdigit() and len(id_or_email) == 8:
+#         eagle_id = id_or_email
+#     else:
+#         messages.error(request, "Error: The format of email or Eagle ID is incorrect.")
+    
+#     # get course object
+#     course = get_object_or_404(Course, pk=course_id)
+
+#     # Validate the existance of the student
+#     if eagle_id != '':
+#         new_student = User.objects.filter(eagle_id = eagle_id).first()
+#         valid_student = True
+#     elif email != '':
+#         new_student = User.objects.filter(email = email).first()
+#         valid_student =True
+#     else:
+#         messages.error(request, "Error: Student is not found.")
+    
+#     if valid_student:
+#         course.students.add(new_student)
+#         course.save()
+#         print("student successfully added")
+
+#     return my_courses(request) # refresh page
+
+
+
+# def remove_student(request, course_id, eagle_id):
+#     course = Course.objects.get(pk=course_id)
+#     student = User.objects.get(eagle_id=eagle_id)
+#     course.students.remove(student)
+#     course.save()
+#     messages.error(request, "Student removed.")
+#     return my_courses(request) # refresh page
