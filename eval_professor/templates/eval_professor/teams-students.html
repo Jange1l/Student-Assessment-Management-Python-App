@@ -111,16 +111,19 @@
 						<div class="col course-box">
 							<h3 style="font-size: 20px;"> {{team.team_name}}</h3>
 							<h4 style="font-size: 13px;"> in {{team.course.course_name}}</h4>
-							<!-- show all students in this team  -->
-							{% for member in team.student.all|dictsort:"first_name" %}
-								<div class="student-info"> {{ member.last_name }}, {{ member.first_name }} - {{ member.email }} 
-									<a style="color: #6C63FF; margin-left: 2%;" href=""><i class="fa fa-times"></i></a> 
-								</div> 
-							{% endfor %}
+
 							<hr/>
-
-
-
+							<!-- show all students in this team  -->
+							{% if team.student.all|length > 0 %}
+								{% for member in team.student.all|dictsort:"first_name" %}
+									<div class="student-info"> {{ member.last_name }}, {{ member.first_name }} - {{ member.email }} 
+										<a style="color: #6C63FF; margin-left: 2%;" href="{% url 'remove_student_from_team' team_id=team.id eagle_id=member.eagle_id %}"><i class="fa fa-times"></i></a> 
+									</div> 
+								{% endfor %}
+							{% else %}
+								<div class="student-info"> empty </div>
+							{% endif %}
+							<hr/>
 
 							<div class="card">
 								<div class="card-header" id="headingTeamBox_@{{ team.id }}">
@@ -133,10 +136,10 @@
 								<div id="collapseTeamBox_@{{ team.id }}" class="collapse" aria-labelledby="headingTeamBox_@{{ team.id }}">
 									<div class="card-body">
 										<!-- Form to take inputs and dropdown search -->
-										<form action="{% url 'add_new_team' %}" method="post">
+										<form action="{% url 'add_student_to_team' team_id=team.id %}" method="post">{% csrf_token %}
 											
 												<label for="add" style="font-size: 15px; font-weight: 15px;">Add a student:</label>
-												<input list="add_list" id="add" class="form-control" name="student_id" placeholder="Search here..." aria-describedby="addHelp"/>
+												<input type="text" list="add_list" id="add" class="form-control" name="name_id" placeholder="Search here..." aria-describedby="addHelp"/>
 												<small id="addHelp" class="form-text text-muted">Type in name/Eagle ID to search.</small>
 
 												<datalist id="add_list">

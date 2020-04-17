@@ -98,7 +98,7 @@
 								</div>
 								<!-- collapse - student info END -->
 
-								<a class="buttons purple delete-btn" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
+								<a class="buttons purple delete-btn float-right" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
 							
 							</div>
 						{% endif %}
@@ -131,7 +131,7 @@
 											<h4> <b>Section:</b> {{ course.section_number }}</h4>
 											<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
 										</div>
-										<a class="buttons purple delete-btn" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
+										<a class="buttons purple delete-btn float-right" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
 							</div>
 						{% endif %}
 						{% endif %}

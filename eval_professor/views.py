@@ -221,47 +221,34 @@ def delete_team(request, team_id):
 
 
 # Add a student to a team
-# def add_student_to_team(request, team_id):
-#     id_or_email = request.POST['id or email']
-#     eagle_id = ''
-#     email = ''
-#     valid_student = False
-#     # check is it email format
-#     regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
-#     if regex_search(regex,email):  
-#         email = id_or_email  
-#     # check is it eagle id format       
-#     elif id_or_email.isdigit() and len(id_or_email) == 8:
-#         eagle_id = id_or_email
-#     else:
-#         messages.error(request, "Error: The format of email or Eagle ID is incorrect.")
+def add_student_to_team(request, team_id):
+    name_id = request.POST['name_id']
+    eagle_id = name_id[-8:]
     
-#     # get course object
-#     course = get_object_or_404(Course, pk=course_id)
-
-#     # Validate the existance of the student
-#     if eagle_id != '':
-#         new_student = User.objects.filter(eagle_id = eagle_id).first()
-#         valid_student = True
-#     elif email != '':
-#         new_student = User.objects.filter(email = email).first()
-#         valid_student =True
-#     else:
-#         messages.error(request, "Error: Student is not found.")
+    valid_student = False
     
-#     if valid_student:
-#         course.students.add(new_student)
-#         course.save()
-#         print("student successfully added")
+    # get team object
+    team = get_object_or_404(Team, pk=team_id)
 
-#     return my_courses(request) # refresh page
+    # Validate the existance of the student
+    if eagle_id != '':
+        new_student = User.objects.filter(eagle_id = eagle_id).first()
+        valid_student = True
+    else:
+        messages.error(request, "Error: Student is not found.")
+    
+    if valid_student:
+        team.student.add(new_student)
+        team.save()
+
+    return teams_students(request) # refresh page
 
 
-
-# def remove_student(request, course_id, eagle_id):
-#     course = Course.objects.get(pk=course_id)
-#     student = User.objects.get(eagle_id=eagle_id)
-#     course.students.remove(student)
-#     course.save()
-#     messages.error(request, "Student removed.")
-#     return my_courses(request) # refresh page
+# remove a student from a team
+def remove_student_from_team(request, team_id, eagle_id):
+    team = Team.objects.get(pk=team_id)
+    student = User.objects.get(eagle_id=eagle_id)
+    team.student.remove(student)
+    team.save()
+    messages.error(request, "Student removed.")
+    return teams_students(request) # refresh page
