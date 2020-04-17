@@ -113,20 +113,47 @@
 							<h4 style="font-size: 13px;"> in {{team.course.course_name}}</h4>
 							<!-- show all students in this team  -->
 							{% for member in team.student.all|dictsort:"first_name" %}
-							<h4> {{ member.first_name }} {{ member.last_name }}</h4>
+								<div class="student-info"> {{ member.last_name }}, {{ member.first_name }} - {{ member.email }} 
+									<a style="color: #6C63FF; margin-left: 2%;" href=""><i class="fa fa-times"></i></a> 
+								</div> 
 							{% endfor %}
-							<div>
-								<label for="add" style="font-size: 15px; font-weight: 15px;">Add a student:</label>
-								<input list="add_list" id="add" class="form-control" name="student_id" placeholder="Search here..." aria-describedby="addHelp"/>
-								<small id="addHelp" class="form-text text-muted">Type in name/Eagle ID to search.</small>
+							<hr/>
 
-								<datalist id="add_list">
-									{% for student in team.course.students.all %}
-										<option value="{{ student.first_name }} {{ student.last_name }} - {{ student.eagle_id }}">
-									{% endfor %}
-								</datalist>
+
+
+
+							<div class="card">
+								<div class="card-header" id="headingTeamBox_@{{ team.id }}">
+									<h5 class="mb-0">
+									<button style="color: #6C63FF;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTeamBox_@{{ team.id }}" aria-expanded="false" aria-controls="collapseTeamBox_@{{ team.id }}">
+										Add a student
+									</button>
+									</h5>
+								</div>
+								<div id="collapseTeamBox_@{{ team.id }}" class="collapse" aria-labelledby="headingTeamBox_@{{ team.id }}">
+									<div class="card-body">
+										<!-- Form to take inputs and dropdown search -->
+										<form action="{% url 'add_new_team' %}" method="post">
+											
+												<label for="add" style="font-size: 15px; font-weight: 15px;">Add a student:</label>
+												<input list="add_list" id="add" class="form-control" name="student_id" placeholder="Search here..." aria-describedby="addHelp"/>
+												<small id="addHelp" class="form-text text-muted">Type in name/Eagle ID to search.</small>
+
+												<datalist id="add_list">
+													{% for student in team.course.students.all %}
+														<option value="{{ student.first_name }} {{ student.last_name }} - {{ student.eagle_id }}">
+													{% endfor %}
+												</datalist>
+
+												<button type="submit" class="btn btn-primary buttons purple float-right" style=" font-size: 15px; padding: 15px; margin-bottom: 1%;">Add</button>
+											
+										</form>
+										<!-- form END -->
+									</div>
+								</div>
 							</div>
-							<a style="font-size: 10px; padding: 10px;" class="buttons purple delete-btn" href="{% url 'delete_team' team_id=team.id %}">Delete</a>
+
+							<a style="position:absolute; top: 30px; right:5%; font-size: 10px; padding: 10px; background-color: rgb(247, 104, 88);" class="buttons delete-btn" href="{% url 'delete_team' team_id=team.id %}">Delete</a>
 						</div>
 
 					{% endif %}
