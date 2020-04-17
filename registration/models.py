@@ -38,9 +38,7 @@ class Course(models.Model):
 
 # ------------------------- TEAM MODEL -----------------------------------------
 class Team(models.Model):
-    
-    # Primary Key is the auto-generated IDs
-    team_number = models.IntegerField("team number") # maybe dont need this
+    # Primary Key is the auto-generated ID
     team_name = models.CharField("team name", max_length=60)
     
     course = models.ForeignKey(Course, on_delete = models.CASCADE) # a Course object
