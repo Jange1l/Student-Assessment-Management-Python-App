@@ -115,7 +115,17 @@
 							{% for member in team.student.all|dictsort:"first_name" %}
 							<h4> {{ member.first_name }} {{ member.last_name }}</h4>
 							{% endfor %}
-							
+							<div>
+								<label for="add" style="font-size: 15px; font-weight: 15px;">Add a student:</label>
+								<input list="add_list" id="add" class="form-control" name="student_id" placeholder="Search here..." aria-describedby="addHelp"/>
+								<small id="addHelp" class="form-text text-muted">Type in name/Eagle ID to search.</small>
+
+								<datalist id="add_list">
+									{% for student in team.course.students.all %}
+										<option value="{{ student.first_name }} {{ student.last_name }} - {{ student.eagle_id }}">
+									{% endfor %}
+								</datalist>
+							</div>
 							<a style="font-size: 10px; padding: 10px;" class="buttons purple delete-btn" href="{% url 'delete_team' team_id=team.id %}">Delete</a>
 						</div>
 

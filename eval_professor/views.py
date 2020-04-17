@@ -143,8 +143,6 @@ def add_student(request, course_id):
     email = ''
     valid_student = False
     # check is it email format
-    # regex = '^[w-.]+@([w-]+.)+[w-]{2,4}$'
-    # print(regex_search(regex,email))
     if regex_search(r'@bc.edu', id_or_email) is not None:  
         email = id_or_email  
     # check is it eagle id format       
@@ -222,8 +220,8 @@ def delete_team(request, team_id):
     return teams_students(request) # refresh page
 
 
-# # Add a student to a team
-# def add_student(request, team_id):
+# Add a student to a team
+# def add_student_to_team(request, team_id):
 #     id_or_email = request.POST['id or email']
 #     eagle_id = ''
 #     email = ''
