@@ -28,9 +28,11 @@
 								<h4> Professor {{ prof.first_name }} {{ prof.last_name }}</h4>
 								{% endfor %}
 								<!-- show other course info -->
-								<h4> <b>Code:</b> {{ course.course_code }}</h4>
-								<h4> <b>Section:</b> {{ course.section_number }}</h4>
-								<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
+								<div class="row no-gutters" style="padding: 0; top: 0; margin-bottom: 0;">
+									<h4> <b>Code:</b> {{ course.course_code }}</h4>
+									<h4> <b>Section:</b> {{ course.section_number }}</h4>
+									<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
+								</div>
 								<h4> <b>Number of students:</b> {{ course.students.all|length }} </h4>
 								
 								<!-- the following is for the collapse style to show student info -->
@@ -124,9 +126,11 @@
 										{% for prof in course.professors.all|dictsort:"first_name" %}
 										<h4> Professor {{ prof.first_name }} {{ prof.last_name }}</h4>
 										{% endfor %}
-										<h4> <b>Code:</b> {{ course.course_code }}</h4>
-										<h4> <b>Section:</b> {{ course.section_number }}</h4>
-										<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
+										<div class="row no-gutters" style="padding: 0; top: 0; margin-bottom: 0;">
+											<h4> <b>Code:</b> {{ course.course_code }}</h4>
+											<h4> <b>Section:</b> {{ course.section_number }}</h4>
+											<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
+										</div>
 										<a class="buttons purple delete-btn" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
 							</div>
 						{% endif %}

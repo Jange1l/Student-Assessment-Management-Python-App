@@ -16,11 +16,22 @@
 			<!-- because we must use a loop to show all data, we can learn from the following code to use the grid system in Bootstrap -->
 			<!-- When you do this part please take a look -->
 
-		<div class="container">
+		<!-- <div class="container">
 			<div class="row">
 				{% for team in team_list %}
 					{% if forloop.counter0|divisibleby:2 and not forloop.first %}<div class="w-100"></div>{% endif %}
 					<div class="col">{{team.team_name}}</div>
+				{% endfor %}
+			</div>
+		</div> -->
+
+		<div class="container">
+			<div class="row">
+				{% for team in team_list %}
+					{% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
+					<div class="col">{{team.team_name}}</div>
+
+					
 				{% endfor %}
 			</div>
 		</div>
