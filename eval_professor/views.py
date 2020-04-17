@@ -251,7 +251,7 @@ def add_student_to_team(request, team_id):
             if len(each_team.student.filter(eagle_id=eagle_id)) > 0:
                 messages.error(request, "Error: This student is already in a team ({})".format(each_team.team_name))
                 valid_student = False
-    print(team.team_name)
+    
     if valid_student:
         team.student.add(new_student)
         team.save()
