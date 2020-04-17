@@ -237,6 +237,12 @@ def add_student_to_team(request, team_id):
     else:
         messages.error(request, "Error: Student is not found.")
 
+    # Validate if the student is in the course
+    if valid_student:
+        if new_student not in team.course.students.all():
+            messages.error(request, "Error: The student is not in this course")
+            valid_student = False
+
     # Validate if the student is already in another team
     if valid_student:
         course = team.course # the course object

@@ -140,7 +140,7 @@
 											
 												<label for="add" style="font-size: 15px; font-weight: 15px;">Add a student:</label>
 												<input type="text" list="add_list" id="add" class="form-control" name="name_id" placeholder="Search here..." aria-describedby="addHelp"/>
-												<small id="addHelp" class="form-text text-muted">Type in name/Eagle ID to search.</small>
+												<small id="addHelp" class="form-text text-muted">Type in name/Eagle ID to search. Note that you must add a student to this course before you add him/her to a team in the course.</small>
 
 												<datalist id="add_list">
 													{% for student in team.course.students.all %}
