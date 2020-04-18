@@ -1,4 +1,4 @@
-{% extends 'eval_professor/base-sidebar.html'%}
+% extends 'eval_professor/base-sidebar.html'%}
 
 {% load static %}
 
@@ -7,9 +7,67 @@
 {% block content%}
 	<!-- Other page content to the right of the NAV BAR -->
 	<div id="main">
-		<div class="container">
-			<h1 style="color: red;">ADD TO THIS PAGE</h1>
-		</div>
-		
+		<h2>Create New Assessment</h2>
+		<form action="{% url 'make_new_course' %}" method="post">
+			<div class="form-group">
+			  <label>Assessment Name</label>
+			  {% csrf_token %}
+			  <input type="text" required=True class="form-control" name="Assessment name" placeholder="Name this assessment">
+			</div>
+
+			<div class="form-group">
+				<label>Course</label>
+				<select class="form-control" name="course" id="course">
+					<option value="" disabled selected hidden>Choose course code</option>
+					<option>Fall</option>
+					<option>Spring</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<label for="startDate">Survey Start Date</label>
+				<input type="number" required=True min="1" max="99" step="1" class="form-control" name="start date" id="startdate" aria-describedby="startdaterHelp" placeholder="Choose start date">
+				<small id="startdaterHelp" class="form-text text-muted">Choose when survey is open to students. An e-mail will automatically be sent to members of the course.</small>
+			</div>
+
+			<div class="form-group">
+				<label for="year">Survey End Date</label>
+				<input type="number" required=True min="1900" max="2099" step="1" class="form-control" name="end date" id="end date" aria-describedby="enddateHelp" placeholder="Choose end date">
+				<small id="enddateHelp" class="form-text text-muted">Choose when survey closes.</small>
+			</div>
+
+			<div class="md-form">
+			  <input placeholder="Selected date" type="text" id="date-picker-example" class="form-control datepicker">
+			  <label for="date-picker-example">Try me...</label>
+			</div>
+			<script src="eval_professor\static\eval_professor\js\create-new-assessment.js"></script>
+
+			<button type="button" class="btn btn-primary buttons purple">Add a question +</button>
+
+			<div class="form-group">
+				<label for="year">Add a Question</label>
+				<input type="number" required=True min="1900" max="2099" step="1" class="form-control" name="year" id="year" placeholder="Enter a question">
+			</div>
+
+			<div class="form-group">
+				<label>Question Type</label>
+				<select class="form-control" name="Question type" id="Question type">
+					<option value="" disabled selected hidden>Choose a question type</option>
+					<option>Multiple Choice</option>
+					<option>Free Response</option>
+				</select>
+			</div>
+
+			<button type="button" class="btn btn-primary buttons red">Cancel question</button>
+
+
+			<button type="submit" class="btn btn-primary buttons purple">Create New Assessment</button>
+
+
+		  </form>
+		  	<form>
+				<!-- I put form around this button in order to let formaction work as a link -->
+				<button formaction="{% url 'professor-dashboard' %}" style="position: absolute; right: 2%;" class="btn btn-primary buttons red">Discard</button>
+			</form>
 	</div>
 {% endblock %}
