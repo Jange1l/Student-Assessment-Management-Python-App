@@ -26,6 +26,31 @@
 						<!-- check if current courses  -->
 						{% if course.is_active %} 
 							<div class="column course-box">	
+								<!-- Button trigger modal - the actual modal div is below -->
+								<a data-toggle="modal" data-target="#exampleModal_@{{course.id}}" style="font-size: 10px; padding: 10px; background-color: rgb(247, 104, 88);" class="buttons delete-btn float-right" href="">Delete</a>
+								<!-- Modal - this does not show on page, but DONT delete -->
+								<div class="modal fade" id="exampleModal_@{{course.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Delete Warning</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+										</div>
+										<div class="modal-body">
+										Are you sure you want to delete this course?
+										</div>
+										<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+										<form action="{% url 'delete_course' course_id=course.id %}">
+											<button type="submit" class="btn btn-primary red">Confirm and Delete</button>
+										</form>
+										</div>
+									</div>
+									</div>
+								</div>
+
 								<h3> {{ course.course_name }}</h3>
 								<!-- show all professors for this course  -->
 								{% for prof in course.professors.all|dictsort:"first_name" %}
@@ -103,8 +128,6 @@
 								</div>
 								<!-- collapse - student info END -->
 
-								<a class="buttons purple delete-btn float-right" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
-							
 							</div>
 						{% endif %}
 						{% endif %}
@@ -128,6 +151,31 @@
 						{% if request.user in course.professors.all %}
 						{% if not course.is_active %}
 							<div class="column course-box">	
+										<!-- Button trigger modal - the actual modal div is below -->
+										<a data-toggle="modal" data-target="#exampleModal_@{{course.id}}" style="font-size: 10px; padding: 10px; background-color: rgb(247, 104, 88);" class="buttons delete-btn float-right" href="">Delete</a>
+										<!-- Modal - this does not show on page, but DONT delete -->
+										<div class="modal fade" id="exampleModal_@{{course.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Delete Warning</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+												</div>
+												<div class="modal-body">
+												Are you sure you want to delete this course?
+												</div>
+												<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+												<form action="{% url 'delete_course' course_id=course.id %}">
+													<button type="submit" class="btn btn-primary red">Confirm and Delete</button>
+												</form>
+												</div>
+											</div>
+											</div>
+										</div>
+
 										<h3> {{ course.course_name }}</h3>
 										{% for prof in course.professors.all|dictsort:"first_name" %}
 										<h4> Professor {{ prof.first_name }} {{ prof.last_name }}</h4>
@@ -137,7 +185,7 @@
 											<h4> <b>Section:</b> {{ course.section_number }}</h4>
 											<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
 										</div>
-										<a class="buttons purple delete-btn float-right" href="{% url 'delete_course' course_id=course.id %}">Delete Course</a>
+										
 							</div>
 						{% endif %}
 						{% endif %}
