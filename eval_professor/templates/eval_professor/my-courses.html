@@ -10,10 +10,14 @@
 
 		<!-- ********************** current courses ********************** -->
 		<div class="container">
-			<h2 style="color: #6C63FF;">Current Courses</h2>
-		</div>
+			<!-- title and the add button  -->
+			<div class="container row">
+				<h2 style="color: #6C63FF;">Current Courses</h2>
+				<form>
+					<button formaction="{% url 'create-new-course' %}" class="btn btn-lg btn-outline-dark" style="margin-left: 5%;">Create A New Course <i class = "fa fa-plus-square"></i></button>
+				</form>
+			</div>
 
-		<div class="container">
 			{% if course_list %}
 				<!-- <div class="row"></div> -->   
 					{% for course in course_list|dictsort:"course_code" %}	
@@ -112,10 +116,11 @@
 
 		<!-- ********************** past courses ********************** -->
 		<div class="container">
-			<h2 style="color: rgb(255, 99, 117); margin-top: 5%;">Past Courses</h2>
-		</div>
+			<!-- title  -->
+			<div class="container row">
+				<h2 style="color: rgb(255, 99, 117); margin-top: 5%;">Past Courses</h2>
+			</div>
 
-		<div class="container">
 			{% if course_list %}
 				<!-- <div class="row"></div> -->
 					{% for course in course_list|dictsort:"course_code" %}	
