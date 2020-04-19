@@ -3,10 +3,12 @@ from django.contrib import messages
 
 # models imported from other apps
 from registration.models import Course, Team
+from assessment.models import Assessment, Question
 from account.models import User
 
 # import Python packages
 from re import search as regex_search
+import datetime
 
 
 
@@ -22,7 +24,11 @@ def all_assessments(request):
 
 # Create New Assessment Page
 def create_new_assessment(request):
-    return render(request, 'eval_professor/create-new-assessment.html')
+    course_list = Course.objects.all()
+    context = {
+        'course_list': course_list,
+    }
+    return render(request, 'eval_professor/create-new-assessment.html', context = context)
 
 
 # My Courses Page
@@ -267,3 +273,50 @@ def remove_student_from_team(request, team_id, eagle_id):
     team.save()
     messages.error(request, "Student removed.")
     return teams_students(request) # refresh page
+
+
+
+
+# ----------------------------------- Assessment Section (functions below are for assessments) --------------
+# Function: create a new assessment
+def make_new_assessment(request):
+    name = request.POST['Assessment name']
+    description = request.POST['description']
+    course_id = request.POST['course id']
+    start_dt = request.POST['start date']
+    end_dt = request.POST['end date']
+
+    valid = False
+    
+    # Validate Date Format
+    if regex_search(r'[0-9]+\-[0-9]+\-[0-9]+', start_dt) and regex_search(r'[0-9]+\-[0-9]+\-[0-9]+', end_dt):
+        st_dt_list = start_dt.split('-')
+        end_dt_list = end_dt.split('-')
+        valid = True
+    else:
+        messages.error(request, "Error: Incorrect date format. Use yyyy-mm-dd")
+        return make_new_assessment(request)
+
+    # if valid:
+    #     # Create an instance of assessment
+    #     assessment = Assessment(
+    #                     name = name.title(), 
+    #                     description = description, 
+    #                     start_date = start_dt, 
+    #                     end_date = end_dt, 
+    #                     course = Course.objects.get(pk=course_id),
+    #                     )
+    #     assessment.save()
+        
+
+    # need to add questions here
+
+    # # Add to Many-to-Many field
+    # course.professors.add(professor)
+    # if co_prof_valid:
+    #     course.professors.add(co_professor)
+    # course.save()
+
+    # messages.error(request, 'New course creation is successful!')
+    # print("Create Course Success")
+    return all_assessments(request) # go to all assessment page

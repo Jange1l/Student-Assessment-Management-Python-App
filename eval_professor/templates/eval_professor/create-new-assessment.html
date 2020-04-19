@@ -8,7 +8,7 @@
 	<!-- Other page content to the right of the NAV BAR -->
 	<div id="main">
 		<h2>Create New Assessment</h2>
-		<form action="{% url 'make_new_course' %}" method="post">
+		<form action="{% url 'make_new_assessment' %}" method="post"> {% csrf_token %}
 			<div class="form-group">
 			  <label>Assessment Name</label>
 			  <input type="text" required=True class="form-control" name="Assessment name" placeholder="Name this assessment">
@@ -16,18 +16,22 @@
 
 			<div class="form-group">
 				<label>Description</label>
-				<input type="text" required=True class="form-control" name="description" placeholder="Describe the assessment">
-				<small class="form-text text-muted">Leave blank if none.</small>
+				<input type="text" class="form-control" name="description" placeholder="Describe the assessment">
+				<small class="form-text text-muted">Not required. Leave blank if none.</small>
 			</div>
 
 			<div class="form-group">
 				<label>Course</label>
-				<select class="form-control" name="course" id="course" placeholder="Choose course">
-					<option value=""></option>
+				<select type="number" class="form-control" name="course id" id="course" placeholder="Choose course">
+					<!-- display all active courses that belong to the current prof -->
+					{% for course in course_list %}
+						{% if request.user in course.professors.all and course.is_active %}
+							<option value="{{ course.id }}">{{ course.course_name }}</option>
+						{% endif %}
+					{% endfor %}
 				</select>
 				<small class="form-text text-muted">Select the course that this assessment belongs to.</small>
 			</div>
-
 
 			<div class="form-group">
 				<label for="startDate">Start Date</label>
@@ -37,11 +41,14 @@
 
 			<div class="form-group">
 				<label for="year">End Date</label>
-				<input type="date" placeholder="yyyy-mm-dd" class="form-control" name="end date" id="end date" aria-describedby="enddateHelp">
+				<input type="date" placeholder="yyyy-mm-dd" class="form-control" name="end date" id="enddate" aria-describedby="enddateHelp">
 				<small id="enddateHelp" class="form-text text-muted">Indicate the date peer assessment closes.</small>
 			</div>
 
 			<hr>
+
+			<!-- dynamically add questions below -->
+
 			<h4>Create questions for this accessment</h4>
 
 			
@@ -64,7 +71,14 @@
 			<button type="button" class="btn btn-primary buttons purple add-more">Add a question</button>
 			<small class="form-text text-muted">Click here if you want add more questions.</small>
 
-			<!-- content that appears after clicking add a question  -->
+			<hr>
+
+			<!-- the submit button  -->
+			<button style="margin-top: 10px;" type="submit" class="buttons purple">Finish creation</button>
+
+		</form>
+			
+			<!-- This is used to dynamically add question - content that appears after clicking add a question  -->
 			<div class="copy d-none">
 				<div class="form-group remove-this" >
 
@@ -87,19 +101,11 @@
 				</div>
 			</div>
 
-			<hr>
-
-			<form>
+		<!-- the discard button  -->
+		<form>
 				<!-- I put form around this button in order to let formaction work as a link -->
 				<button formaction="{% url 'professor-dashboard' %}" class="buttons red float-right">Discard</button>
-			</form>
-
-
-			<button style="margin-top: 10px;" type="submit" class="buttons purple">Finish creation</button>
-
-
 		</form>
-		
 	</div>
 
 	<!-- // For add and delete question  -->

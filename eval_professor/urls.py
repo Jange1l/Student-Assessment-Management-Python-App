@@ -24,4 +24,8 @@ urlpatterns = [
     path('delete_team/<int:team_id>/', views.delete_team, name='delete_team'),
     path('add_student_to_team/<int:team_id>/', views.add_student_to_team, name='add_student_to_team'),
     path('remove_student_from_team/<int:team_id>/<str:eagle_id>/', views.remove_student_from_team, name='remove_student_from_team'),
+
+    # functions for teams
+    path('make_new_assessment', views.make_new_assessment, name='make_new_assessment'),
+    
 ]
