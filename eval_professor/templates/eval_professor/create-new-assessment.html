@@ -104,13 +104,13 @@
 
 	<!-- // For add and delete question  -->
 	<script>
-		var i = 1;
+		var i = 0;
 		$(document).ready(function() {
 			$(".add-more").click(function(){
 				var html = $(".copy").html();
-				$(".after-add-more").after(html);
+				$(".add-more").before(html);
 				// set dynamic id and name 
-				var input_tag = document.getElementById("question-1");
+				var input_tag = document.getElementById("question-");
 				window.i++;
 				console.log(window.i);
 				var name_to_set = 'question-' + i;
@@ -118,7 +118,6 @@
 				input_tag.id = name_to_set;
 			});
 			$("body").on("click",".remove",function(){ 
-				// $(this).parents(".control-group").remove();
 				$(this).parents(".remove-this").remove();
 			});
 		});
