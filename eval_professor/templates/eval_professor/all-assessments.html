@@ -8,29 +8,116 @@
 	<!-- Other page content to the right of the NAV BAR -->
 	<div id="main">
 	
+		<!-- ********************** current assessments ********************** -->
+		<div class="container">
+			<div class="container row">
+				<h2 style="color: #6C63FF;">Current Peer Assessments</h2>
+				<form>
+					<button formaction="{% url 'create-new-assessment' %}" class="btn btn-lg btn-outline-dark" style="margin-left: 5%;">Create A New Peer Assessment <i class = "fa fa-plus-square"></i></button>
+				</form>
+			</div>
 
-		<div class="container row">
-			<h2 style="color: #6C63FF;">Current Peer Assessments</h2>
-			<form>
-				<button formaction="{% url 'create-new-assessment' %}" class="btn btn-lg btn-outline-dark" style="margin-left: 5%;">Create A New Peer Assessment <i class = "fa fa-plus-square"></i></button>
-			</form>
-		</div>
+			{% if assessment_list|length > 0 %}
+				{% for assessment in assessment_list %}
+					{% if assessment.is_current %}
+						<div class="column course-box">	
+							<!-- name and course  -->
+							<h3> {{ assessment.name }} </h3> 
+							<p style="font-weight: 20;"> for {{ assessment.course.course_name }}</p>
+							<!-- description of the assessment  -->
+							{% if assessment.description is not None %}
+								<h4><b>Description:</b> {{ assessment.description }}</h4>
+							{% else %}
+								<h4>No assessment description</h4>
+							{% endif %}
+							<!-- dates  -->
+							<h4> <b>Time:</b> {{ assessment.start_date }} - {{ assessment.end_date }}</h4>
+							<hr>
+							<!-- show other submissions info -->
+							<h4> <b>Number of submissions:</b> {{ course.students.all|length }} </h4>
 
-		{% if assessment_list|length > 0 %}
-			{% for assessment in assessment_list %}
-				{{ assessment.name }} for {{ assessment.course.course_name }}
-				<!-- print questions -->
-				{% for question in assessment.questions.all|dictsort:"id" %}
-					<p>{{ question.question_text }} Type: {{ question.type_answer }}</p>
+							<!-- the following is for the collapse style to show info -->
+							<div style="margin-top: 2%; margin-bottom: 2%;" id="accordion">
+								<div class="card">
+									<div class="card-header" id="headingOne_@{{ assessment.id }}">
+										<h5 class="mb-0">
+											<button style="color: #6C63FF;" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne_@{{ assessment.id }}" aria-expanded="true" aria-controls="collapseOne_@{{ assessment.id }}">
+												Show all questions
+											</button>
+										</h5>
+									</div>
+								
+									<div id="collapseOne_@{{ assessment.id }}" class="collapse" aria-labelledby="headingOne_@{{ assessment.id }}" data-parent="#accordion">
+										<div class="card-body">
+											<!-- print questions -->
+											{% if assessment.questions.all|length == 0 %}
+												<p>No students in the course.</p>
+											{% else %}
+												{% for question in assessment.questions.all|dictsort:"id" %}
+													<p>{{ question.question_text }} <b>Answer Type:</b> {{ question.type_answer }} </p>
+												{% endfor %}
+											{% endif %}
+										</div>
+									</div>
+								</div>
+
+								<div class="card">
+									<div class="card-header" id="headingTwo_@{{ assessment.id }}">
+										<h5 class="mb-0">
+											<button style="color: #6C63FF;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo_@{{ assessment.id }}" aria-expanded="false" aria-controls="collapseTwo_@{{ assessment.id }}">
+												Submissions
+											</button>
+										</h5>
+									</div>
+									<div id="collapseTwo_@{{ assessment.id }}" class="collapse" aria-labelledby="headingTwo_@{{ assessment.id }}" data-parent="#accordion">
+										<div class="card-body">
+											No submissions yet.
+
+										</div>
+									</div>
+								</div>
+								
+							</div>
+							<!-- collapse - info END -->
+							<hr>
+
+						</div>
+				
+					{% endif %}
 				{% endfor %}
-			{% endfor %}
-		{% else %}
-			No current assessments.
-		{% endif %}
-		<div class="container row">
-			<h2 style="color: rgb(255, 99, 117); margin-top: 5%;">Past Peer Assessments</h2>
+			{% else %}
+				No current assessments.
+			{% endif %}
 		</div>
-		
+
+		<!-- ********************** past assessments ********************** -->
+		<div class="container">
+			<div class="container row">
+				<h2 style="color: rgb(255, 99, 117); margin-top: 5%;">Past Peer Assessments</h2>
+			</div>
+			{% if assessment_list|length > 0 %}
+				{% for assessment in assessment_list %}
+					{% if not assessment.is_current %}
+						<div class="column course-box">	
+							<!-- name and course  -->
+							<h3> {{ assessment.name }} </h3> 
+							<p style="font-weight: 20;"> for {{ assessment.course.course_name }}</p>
+							<!-- description of the assessment  -->
+							{% if assessment.description is not None %}
+								<h4><b>Description:</b> {{ assessment.description }}</h4>
+							{% else %}
+								<h4>No assessment description</h4>
+							{% endif %}
+							<!-- dates  -->
+							<h4> <b>Time:</b> {{ assessment.start_date }} - {{ assessment.end_date }}</h4>
+						</div>
+							
+					{% endif %}
+				{% endfor %}
+			{% else %}
+				<p>No past assessments.</p>
+			{% endif %}
+		</div>
 
 		<!-- Important Solution for Grid System on Page  -->
 			<!-- because we must use a loop to show all data, we can learn from the following code to use the grid system in Bootstrap -->

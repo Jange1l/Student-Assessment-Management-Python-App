@@ -4,6 +4,9 @@ from django.db import models
 from account.models import User
 from registration.models import Course
 
+# python packages
+import datetime
+
 
 class Question(models.Model):
     TYPE_TEXT = 'Text'
@@ -32,6 +35,12 @@ class Assessment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE) # the course that this peer review belongs to 
 
     questions = models.ManyToManyField(Question) # a set of Questions under this assessment
+
+    def is_current(self):
+        "Returns whether the assessment end date is within 60 days."
+        if self.end_date + datetime.timedelta(days=60) > datetime.datetime.now().date(): # end date + 60 >= current date
+            return True
+        return False
 
 
 

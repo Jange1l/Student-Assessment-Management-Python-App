@@ -37,8 +37,9 @@
 									<h4> <b>Section:</b> {{ course.section_number }}</h4>
 									<h4> <b>Time:</b> {{ course.year }}{{ course.semester }}</h4>
 								</div>
+								<hr>
 								<h4> <b>Number of students:</b> {{ course.students.all|length }} </h4>
-								
+
 								<!-- the following is for the collapse style to show student info -->
 								<div style="margin-top: 2%; margin-bottom: 2%;" id="accordion">
 									<div class="card">
