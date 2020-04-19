@@ -94,7 +94,7 @@ def make_new_course(request):
                             section_number=section_number, 
                             year=year, 
                             semester=semester_initial)) > 0:
-        messages.error(request, "Error: You cannot create duplicate courses.")
+        messages.error(request, "Error: You cannot create duplicate courses")
         return redirect('create-new-course')
     else:
         course_valid = True
@@ -104,13 +104,13 @@ def make_new_course(request):
     if co_professor_id != '':
         co_professor = User.objects.filter(eagle_id=co_professor_id).first()
         if co_professor is None:
-            messages.error(request, "Error: You incorrectly entered the co-professor's Eagle ID.")
+            messages.error(request, "Error: You incorrectly entered the co-professor's Eagle ID")
             return redirect('create-new-course')
         elif not co_professor.is_instructor:
-            messages.error(request, "Error: The co-professor's Eagle ID you entered is not a professor.")
+            messages.error(request, "Error: The co-professor's Eagle ID you entered is not a professor")
             return redirect('create-new-course')
         elif co_professor_id == request.user.eagle_id:
-            messages.error(request, "Error: The co-professor's Eagle ID cannot be the same as your Eagle ID.")
+            messages.error(request, "Error: The co-professor's Eagle ID cannot be the same as your Eagle ID")
             return redirect('create-new-course')
         else:
             co_prof_valid = True
@@ -132,7 +132,7 @@ def make_new_course(request):
         course.professors.add(co_professor)
     course.save()
 
-    messages.error(request, 'New course creation is successful!')
+    messages.error(request, 'New course creation is successful')
     print("Create Course Success")
     return my_courses(request)
 
@@ -141,7 +141,7 @@ def make_new_course(request):
 def delete_course(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     course.delete()
-    messages.error(request, 'Course deleted.')
+    messages.error(request, 'Course deleted')
     print("Course Deleted")
     return my_courses(request) # refresh page
 
@@ -160,7 +160,7 @@ def add_student(request, course_id):
     elif id_or_email.isdigit() and len(id_or_email) == 8:
         eagle_id = id_or_email
     else:
-        messages.error(request, "Error: The format of email or Eagle ID is incorrect.")
+        messages.error(request, "Error: The format of email or Eagle ID is incorrect")
     
     # get course object
     course = get_object_or_404(Course, pk=course_id)
@@ -173,7 +173,7 @@ def add_student(request, course_id):
         new_student = User.objects.filter(email = email).first()
         valid_student =True
     else:
-        messages.error(request, "Error: Student is not found.")
+        messages.error(request, "Error: Student is not found")
     
     if valid_student:
         course.students.add(new_student)
@@ -189,7 +189,7 @@ def remove_student(request, course_id, eagle_id):
     student = User.objects.get(eagle_id=eagle_id)
     course.students.remove(student)
     course.save()
-    messages.error(request, "Student removed.")
+    messages.error(request, "Student removed")
     return my_courses(request) # refresh page
 
 
@@ -207,7 +207,7 @@ def add_new_team(request):
 
     # Check for duplicate names
     if len(Team.objects.filter(team_name=team_name)) > 0:
-         messages.error(request, "Error: The team name you entered has already been taken.")
+         messages.error(request, "Error: The team name you entered has already been taken")
 
     else:
         team_valid = True
@@ -227,7 +227,7 @@ def add_new_team(request):
 def delete_team(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     team.delete()
-    messages.error(request, 'Team deleted.')
+    messages.error(request, 'Team deleted')
     return teams_students(request) # refresh page
 
 
@@ -246,7 +246,7 @@ def add_student_to_team(request, team_id):
         new_student = User.objects.filter(eagle_id = eagle_id).first()
         valid_student = True
     else:
-        messages.error(request, "Error: Student is not found.")
+        messages.error(request, "Error: Student is not found")
 
     # Validate if the student is in the course
     if valid_student:
@@ -276,7 +276,7 @@ def remove_student_from_team(request, team_id, eagle_id):
     student = User.objects.get(eagle_id=eagle_id)
     team.student.remove(student)
     team.save()
-    messages.error(request, "Student removed.")
+    messages.error(request, "Student removed")
     return teams_students(request) # refresh page
 
 
@@ -351,3 +351,11 @@ def make_new_assessment(request):
     # messages.error(request, 'New course creation is successful!')
 
     return all_assessments(request) # go to all assessment page
+
+
+# Delete an assessment
+def delete_assessment(request, assessment_id):
+    assessment = get_object_or_404(Assessment, pk=assessment_id)
+    assessment.delete()
+    messages.error(request, 'Assessment deleted')
+    return all_assessments(request) # refresh page

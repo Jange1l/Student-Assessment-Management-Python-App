@@ -27,5 +27,6 @@ urlpatterns = [
 
     # functions for teams
     path('make_new_assessment', views.make_new_assessment, name='make_new_assessment'),
+    path('delete_assessment/<int:assessment_id>/', views.delete_assessment, name='delete_assessment'),
     
 ]
