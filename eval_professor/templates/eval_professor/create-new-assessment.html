@@ -1,4 +1,4 @@
-% extends 'eval_professor/base-sidebar.html'%}
+{% extends 'eval_professor/base-sidebar.html'%}
 
 {% load static %}
 
@@ -11,63 +11,116 @@
 		<form action="{% url 'make_new_course' %}" method="post">
 			<div class="form-group">
 			  <label>Assessment Name</label>
-			  {% csrf_token %}
 			  <input type="text" required=True class="form-control" name="Assessment name" placeholder="Name this assessment">
 			</div>
 
 			<div class="form-group">
+				<label>Description</label>
+				<input type="text" required=True class="form-control" name="description" placeholder="Describe the assessment">
+				<small class="form-text text-muted">Leave blank if none.</small>
+			</div>
+
+			<div class="form-group">
 				<label>Course</label>
-				<select class="form-control" name="course" id="course">
-					<option value="" disabled selected hidden>Choose course code</option>
-					<option>Fall</option>
-					<option>Spring</option>
+				<select class="form-control" name="course" id="course" placeholder="Choose course">
+					<option value=""></option>
 				</select>
+				<small class="form-text text-muted">Select the course that this assessment belongs to.</small>
+			</div>
+
+
+			<div class="form-group">
+				<label for="startDate">Start Date</label>
+				<input type="date" placeholder="yyyy-mm-dd" class="form-control" name="start date" id="startdate" aria-describedby="startdateHelp" >
+				<small id="startdateHelp" class="form-text text-muted">Indicate the date that peer assessment opens to students. An e-mail will automatically be sent to members of the course.</small>
 			</div>
 
 			<div class="form-group">
-				<label for="startDate">Survey Start Date</label>
-				<input type="number" required=True min="1" max="99" step="1" class="form-control" name="start date" id="startdate" aria-describedby="startdaterHelp" placeholder="Choose start date">
-				<small id="startdaterHelp" class="form-text text-muted">Choose when survey is open to students. An e-mail will automatically be sent to members of the course.</small>
+				<label for="year">End Date</label>
+				<input type="date" placeholder="yyyy-mm-dd" class="form-control" name="end date" id="end date" aria-describedby="enddateHelp">
+				<small id="enddateHelp" class="form-text text-muted">Indicate the date peer assessment closes.</small>
 			</div>
 
-			<div class="form-group">
-				<label for="year">Survey End Date</label>
-				<input type="number" required=True min="1900" max="2099" step="1" class="form-control" name="end date" id="end date" aria-describedby="enddateHelp" placeholder="Choose end date">
-				<small id="enddateHelp" class="form-text text-muted">Choose when survey closes.</small>
+			<hr>
+			<h4>Create questions for this accessment</h4>
+
+			
+			<div class="form-group after-add-more">
+				<label for="">Question Text</label>
+				<input type="text" required=True class="form-control" name="question-0" id="question-0" placeholder="Enter question text">
+
+				<div class="form-group" style="margin-top: 5px;">
+					<label>Answer Type</label>
+					<select class="form-control" name="Question type" id="Question type">
+						<option>Rating Scale (1 - 5)</option>
+						<option>Free Response</option>
+					</select>
+					<small class="form-text text-muted">A rating question asks for a number between 1 and 5; A free response question asks for a text response.</small>
+				</div>
+
+				<hr>
 			</div>
 
-			<div class="md-form">
-			  <input placeholder="Selected date" type="text" id="date-picker-example" class="form-control datepicker">
-			  <label for="date-picker-example">Try me...</label>
+			<button type="button" class="btn btn-primary buttons purple add-more">Add a question</button>
+			<small class="form-text text-muted">Click here if you want add more questions.</small>
+
+			<!-- content that appears after clicking add a question  -->
+			<div class="copy d-none">
+				<div class="form-group remove-this" >
+
+					<button style="margin-bottom: 2px; font-size: 14px; padding: 11px;" class="buttons red float-right remove" type="button">Delete this question</button>
+					
+					<label for="">Question Text</label>
+
+					<input type="text" required=True class="form-control" id="question-" placeholder="Enter question text">
+
+					<div class="form-group" style="margin-top: 5px;">
+						<label>Answer Type</label>
+						<select class="form-control" name="Question type" id="Question type">
+							<option>Rating Scale (1 - 5)</option>
+							<option>Free Response</option>
+						</select>
+					</div>
+					<small class="form-text text-muted">A rating question asks for a number between 1 and 5; A free response question asks for a text response.</small>
+
+					<hr>
+				</div>
 			</div>
-			<script src="eval_professor\static\eval_professor\js\create-new-assessment.js"></script>
 
-			<button type="button" class="btn btn-primary buttons purple">Add a question +</button>
+			<hr>
 
-			<div class="form-group">
-				<label for="year">Add a Question</label>
-				<input type="number" required=True min="1900" max="2099" step="1" class="form-control" name="year" id="year" placeholder="Enter a question">
-			</div>
-
-			<div class="form-group">
-				<label>Question Type</label>
-				<select class="form-control" name="Question type" id="Question type">
-					<option value="" disabled selected hidden>Choose a question type</option>
-					<option>Multiple Choice</option>
-					<option>Free Response</option>
-				</select>
-			</div>
-
-			<button type="button" class="btn btn-primary buttons red">Cancel question</button>
-
-
-			<button type="submit" class="btn btn-primary buttons purple">Create New Assessment</button>
-
-
-		  </form>
-		  	<form>
+			<form>
 				<!-- I put form around this button in order to let formaction work as a link -->
-				<button formaction="{% url 'professor-dashboard' %}" style="position: absolute; right: 2%;" class="btn btn-primary buttons red">Discard</button>
+				<button formaction="{% url 'professor-dashboard' %}" class="buttons red float-right">Discard</button>
 			</form>
+
+
+			<button style="margin-top: 10px;" type="submit" class="buttons purple">Finish creation</button>
+
+
+		</form>
+		
 	</div>
+
+	<!-- // For add and delete question  -->
+	<script>
+		var i = 1;
+		$(document).ready(function() {
+			$(".add-more").click(function(){
+				var html = $(".copy").html();
+				$(".after-add-more").after(html);
+				// set dynamic id and name 
+				var input_tag = document.getElementById("question-1");
+				window.i++;
+				console.log(window.i);
+				var name_to_set = 'question-' + i;
+				input_tag.name = name_to_set;
+				input_tag.id = name_to_set;
+			});
+			$("body").on("click",".remove",function(){ 
+				// $(this).parents(".control-group").remove();
+				$(this).parents(".remove-this").remove();
+			});
+		});
+	</script>
 {% endblock %}
