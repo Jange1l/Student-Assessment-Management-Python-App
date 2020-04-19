@@ -11,7 +11,17 @@
 			<h1 style="color: red;">ADD TO THIS PAGE</h1>
 		</div>
 
-
+		{% if assessment_list|length > 0 %}
+			{% for assessment in assessment_list %}
+				{{ assessment.name }} for {{ assessment.course.course_name }}
+				<!-- print questions -->
+				{% for question in assessment.questions.all|dictsort:"id" %}
+					<p>{{ question.question_text }} Type: {{ question.type_answer }}</p>
+				{% endfor %}
+			{% endfor %}
+		{% else %}
+			No current assessments.
+		{% endif %}
 
 		<!-- Important Solution for Grid System on Page  -->
 			<!-- because we must use a loop to show all data, we can learn from the following code to use the grid system in Bootstrap -->

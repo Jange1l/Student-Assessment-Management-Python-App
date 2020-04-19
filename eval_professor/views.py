@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.utils.datastructures import MultiValueDictKeyError
 
 # models imported from other apps
 from registration.models import Course, Team
@@ -19,7 +20,11 @@ def professor_dashboard(request):
 
 # All Assessments Page
 def all_assessments(request):
-    return render(request, 'eval_professor/all-assessments.html')
+    assessment_list = Assessment.objects.all()
+    context = {
+        'assessment_list': assessment_list,
+    }
+    return render(request, 'eval_professor/all-assessments.html', context = context)
 
 
 # Create New Assessment Page
@@ -297,26 +302,52 @@ def make_new_assessment(request):
         messages.error(request, "Error: Incorrect date format. Use yyyy-mm-dd")
         return make_new_assessment(request)
 
-    # if valid:
-    #     # Create an instance of assessment
-    #     assessment = Assessment(
-    #                     name = name.title(), 
-    #                     description = description, 
-    #                     start_date = start_dt, 
-    #                     end_date = end_dt, 
-    #                     course = Course.objects.get(pk=course_id),
-    #                     )
-    #     assessment.save()
+    if valid:
+    # -----------if starts here -------------------------   
+        # Create an instance of assessment
+        assessment = Assessment(
+                        name = name.title(), 
+                        description = description, 
+                        start_date = start_dt, 
+                        end_date = end_dt, 
+                        course = Course.objects.get(pk=course_id),
+                        )
+        assessment.save()
         
+        # Add questions to the assessment
+        idx = 0
+        more_questions = True
+        while more_questions: # keeps checking if more questions
+            try:
+                question_text = request.POST['question-{}'.format(idx)]
+                answer_type = request.POST['answer type-{}'.format(idx)]
+            except MultiValueDictKeyError: # this error means no more questions
+                question_text = False
+                answer_type = False
+            if question_text == False: # if no more questions - break
+                more_questions = False
+                break
+            else:
+                # Check which answer type
+                if answer_type == "Free Response":
+                    type_answer = Question.TYPE_TEXT
+                else:
+                    type_answer = Question.TYPE_Rating
+                # Create an instance of question
+                new_question = Question(
+                                        question_text=question_text,
+                                        type_answer=type_answer,
+                                        )
+                new_question.save()
+                # Save this new question into the assessment's ManytoMany field
+                assessment.questions.add(new_question)
+                assessment.save()
+            # update counter
+            idx += 1
 
-    # need to add questions here
-
-    # # Add to Many-to-Many field
-    # course.professors.add(professor)
-    # if co_prof_valid:
-    #     course.professors.add(co_professor)
-    # course.save()
+        messages.error(request, 'New assessment created')
+    # ---------------if ends here-------------
 
     # messages.error(request, 'New course creation is successful!')
-    # print("Create Course Success")
+
     return all_assessments(request) # go to all assessment page

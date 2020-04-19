@@ -58,7 +58,7 @@
 
 				<div class="form-group" style="margin-top: 5px;">
 					<label>Answer Type</label>
-					<select class="form-control" name="Question type" id="Question type">
+					<select class="form-control" name="answer type-0" id="answer type-0">
 						<option>Rating Scale (1 - 5)</option>
 						<option>Free Response</option>
 					</select>
@@ -90,7 +90,7 @@
 
 					<div class="form-group" style="margin-top: 5px;">
 						<label>Answer Type</label>
-						<select class="form-control" name="Question type" id="Question type">
+						<select class="form-control" id="answer type-">
 							<option>Rating Scale (1 - 5)</option>
 							<option>Free Response</option>
 						</select>
@@ -117,11 +117,15 @@
 				$(".add-more").before(html);
 				// set dynamic id and name 
 				var input_tag = document.getElementById("question-");
+				var select_tag = document.getElementById("answer type-");
 				window.i++;
 				console.log(window.i);
-				var name_to_set = 'question-' + i;
-				input_tag.name = name_to_set;
-				input_tag.id = name_to_set;
+				var name_to_set1 = 'question-' + i;
+				var name_to_set2 = 'answer type-' + i;
+				input_tag.name = name_to_set1;
+				input_tag.id = name_to_set1;
+				select_tag.name = name_to_set2;
+				select_tag.id = name_to_set2;
 			});
 			$("body").on("click",".remove",function(){ 
 				$(this).parents(".remove-this").remove();
