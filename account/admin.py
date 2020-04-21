@@ -33,6 +33,12 @@ class AddUserForm(forms.ModelForm):
         # Save the provided password in hashed format
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
+
+        if user.is_instructor or user.is_staff: # user cannot be a student if he/she is an instructor
+            user.is_student = False
+        else:
+            user.is_student = True
+        
         if commit:
             user.save()
         return user
@@ -76,7 +82,7 @@ class UserAdmin(BaseUserAdmin):
                 'classes': ('wide',),
                 'fields': (
                     'email', 'first_name', 'last_name', 'eagle_id', 'password1',
-                    'password2'
+                    'password2', 'is_instructor', 
                 )
             }
         ),

@@ -38,6 +38,12 @@ class UserManager(BaseUserManager):
         )
 
         user.set_password(password)
+
+        if user.is_instructor or user.is_staff: # user cannot be a student if he/she is an instructor
+            user.is_student = False
+        else:
+            user.is_student = True
+
         if commit:
             user.save(using=self._db)
         return user
@@ -72,7 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     # last_login field supplied by AbstractBaseUser
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
-    eagle_id = models.CharField(max_length = 8)
+    eagle_id = models.CharField(max_length = 8, unique=True)
 
     is_student = models.BooleanField(
         _('student status'),
