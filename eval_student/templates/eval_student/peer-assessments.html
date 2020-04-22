@@ -5,33 +5,42 @@
 {% block title %} Your Peer Assessments {% endblock %}
 
 {% block content%}
-	<!-- Other page content to the right of the NAV BAR -->
-	<div id="main">
-		<div class="container title-box">
-			<h3>{{ user.first_name }}'s Peer Assessments</h3>
-		</div>
-		<div class="container">
-			<div class="container to-do">
-				<h2>To-Do</h2>
-			</div>
-			<div class="row first-row">
-			  <a class="col-box" href="#">
-				<h5 class="title-displayed"> <b>Delivery 6 Assessments</b> </h5>
-				<h6 class="date-displayed"> <b>Due Date:</b> April 12th 2020 </h6>
-				<h6 class="text-displayed"> Click here to start </h6>
-			  </a>
-			</div>
+<!-- Other page content to the right of the NAV BAR -->
+<div id="main">
 
-			<div class="container missed">
-				<h2>Missed</h2>
-			</div>
-			<div class="row second-row">
-			  <div class="col-box-missed">
-				<h5 class="title-displayed"> <b>Delivery 5 Assessments</b> </h5>
-				<h6 class="date-displayed"> <b>Due Date:</b> April 2nd 2020 </h6>
-				<h6 class="text-displayed"> 0/5 </h6>
-			  </div>
-			</div>
-		  </div>
+	<div class="container title-box">
+		<h3>{{ user.first_name }}'s Peer Assessments</h3>
 	</div>
+
+	<div class="container">
+		<div class="container to-do">
+			<h2>To-Do</h2>
+		</div>
+
+		{% if assessment_list|length > 0 %}
+		{% for assessment in assessment_list %}
+		<div class="row first-row">
+			<a class="col-box" href="#">
+				<h5 class="title-displayed"> <b>{{assessment.name}}</b> </h5>
+				<h6 class="date-displayed"> <b>Due Date:</b> {{assessment.end_date}}April 12th 2020 </h6>
+				<h6 class="text-displayed"> Click here to start </h6>
+			</a>
+		</div>
+		{% endfor %}
+		{% endif %}
+	</div>
+
+
+	<div class="container missed">
+		<h2>Missed</h2>
+	</div>
+	<div class="row second-row">
+		<div class="col-box-missed">
+			<h5 class="title-displayed"> <b>Delivery 5 Assessments</b> </h5>
+			<h6 class="date-displayed"> <b>Due Date:</b> April 2nd 2020 </h6>
+			<h6 class="text-displayed"> 0/5 </h6>
+		</div>
+	</div>
+</div>
+
 {% endblock %}
