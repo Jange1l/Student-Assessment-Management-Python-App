@@ -30,7 +30,7 @@
 
 **Eval_student App:**
   - student dashboard page
-  - peer assessments page
+  - peer assessments page :arrow_right: answer assessment page
   - completed assessments page
  
  
