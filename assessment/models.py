@@ -42,6 +42,16 @@ class Assessment(models.Model):
             return True
         return False
 
+    def time_left(self):
+        time = str(self.end_date - datetime.datetime.now().date())
+        return time[:time.find(',')]
+
+    def is_missed(self):
+        time = str(self.end_date - datetime.datetime.now().date())
+        if time[0] == '-':
+            return True
+        return False
+
 
 
 class Choice(models.Model):

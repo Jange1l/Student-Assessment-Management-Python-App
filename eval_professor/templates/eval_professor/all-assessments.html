@@ -51,10 +51,10 @@
 							<h3> {{ assessment.name }} </h3> 
 							<p style="font-weight: 20;"> for {{ assessment.course.course_name }}</p>
 							<!-- description of the assessment  -->
-							{% if assessment.description is not None %}
+							{% if assessment.description != '' %}
 								<h4><b>Description:</b> {{ assessment.description }}</h4>
 							{% else %}
-								<h4>No assessment description</h4>
+								<h4><b>Description:</b> No assessment description</h4>
 							{% endif %}
 							<!-- dates  -->
 							<h4> <b>Time:</b> {{ assessment.start_date }} - {{ assessment.end_date }}</h4>

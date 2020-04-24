@@ -4,65 +4,21 @@
     margin-bottom: 3%;
 }
 
-.to-do {
-    color: #6C63FF;
-}
-
-.missed {
-    color: rgb(255, 91, 92);
-}
-
-
 /* tabs under to-do */
-.row {
-    position: relative;
-    top: 20px;
-    padding: 8px;
-    margin-top: 0px;
-    margin-bottom: 10%;
-  }
-
-
-.col-box {
-    position: relative;
-    width: 35%;
+.grid-box {
+    width: 98% !important;
     background-color: white;
     color: black;
-    padding: 15px;
-    margin-left: 25px;
-    margin-right: 25px;
+    padding: 35px;
+    margin-top: 10px;
+    margin-right: 15px;
+    margin-bottom: 15px;
     border-radius: 3px;
-    box-shadow: 0.5px 0.5px;
+    box-shadow: 2px 2px grey;
   }
 
-.col-box:hover {
-    text-decoration: none;
-    color: #6C63FF;
-    background-color: #f3f4f4;
-}
 
-.col-box-missed {
-    position: relative;
-    width: 35%;
-    background-color: white;
-    color: black;
-    padding: 15px;
-    margin-left: 25px;
-    margin-right: 25px;
-    border-radius: 3px;
-    box-shadow: 0.5px 0.5px;
+h4 {
+    font-weight: 80;
+    margin-right: 5%;
   }
-
-.title-displayed {
-    font-size: x-large;
-}
-
-.date-displayed {
-    font-size: large;
-    font-weight: 120;
-}
-
-.text-displayed {
-    font-size: medium;
-    font-weight: 50;
-}

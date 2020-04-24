@@ -13,33 +13,76 @@
 	</div>
 
 	<div class="container">
-		<div class="container to-do">
-			<h2>To-Do</h2>
-		</div>
+
+		<h2 style="color: #6C63FF; margin-bottom: 0;">To-Do</h2>
 
 		{% if assessment_list|length > 0 %}
-		{% for assessment in assessment_list %}
-		<div class="row first-row">
-			<a class="col-box" href="#">
-				<h5 class="title-displayed"> <b>{{assessment.name}}</b> </h5>
-				<h6 class="date-displayed"> <b>Due Date:</b> {{assessment.end_date}}April 12th 2020 </h6>
-				<h6 class="text-displayed"> Click here to start </h6>
-			</a>
-		</div>
-		{% endfor %}
+			<div class="row">
+				{% for assessment in assessment_list %}
+					{% if not assessment.is_missed %}
+						{% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
+						<div class="col grid-box">
+							<!-- name and course  -->
+							<h3> {{ assessment.name }} </h3> 
+							<p style="font-weight: 20;"> for {{ assessment.course.course_name }}</p>
+							<!-- description of the assessment  -->
+							{% if assessment.description != '' %}
+								<p><b>Description:</b> {{ assessment.description }}</p>
+							{% else %}
+								<p><b>Description:</b> No assessment description</p>
+							{% endif %}
+							<!-- dates  -->
+							<p> <b>Due:</b> {{ assessment.end_date }}</p>
+							<p> <b>Time left:</b> {{ assessment.time_left }}</p>
+							<hr>
+							
+						
+							<button type="submit" class="btn btn-primary buttons purple float-right">Start</button>
+
+
+						</div>
+
+					{% endif %}
+				{% endfor %}
+			</div>
+		{% else %}
+			<p>No peer assessment available.</p>
 		{% endif %}
 	</div>
 
+	<div class="container">
 
-	<div class="container missed">
-		<h2>Missed</h2>
-	</div>
-	<div class="row second-row">
-		<div class="col-box-missed">
-			<h5 class="title-displayed"> <b>Delivery 5 Assessments</b> </h5>
-			<h6 class="date-displayed"> <b>Due Date:</b> April 2nd 2020 </h6>
-			<h6 class="text-displayed"> 0/5 </h6>
-		</div>
+		<h2 style="color: rgb(255, 91, 92); margin-bottom: 0;">Missed</h2>
+
+	
+			{% if assessment_list|length > 0 %}
+				<div class="row">
+					{% for assessment in assessment_list %}
+						{% if assessment.is_missed %}
+							{% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
+							<div class="col grid-box">
+								<!-- name and course  -->
+								<h3> {{ assessment.name }} </h3> 
+								<p style="font-weight: 20;"> for {{ assessment.course.course_name }}</p>
+								<!-- description of the assessment  -->
+								{% if assessment.description != '' %}
+									<p><b>Description:</b> {{ assessment.description }}</p>
+								{% else %}
+									<p><b>Description:</b> No assessment description</p>
+								{% endif %}
+								<!-- dates  -->
+								<p> <b>Due:</b> {{ assessment.end_date }}</p>
+								<hr>
+								<button type="submit" style="background-color: gray; border: gray;" class="btn btn-primary float-right" disabled>Past due</button>
+
+							</div>
+
+						{% endif %}
+					{% endfor %}
+				</div>
+			{% else %}
+				<p>No peer assessment available.</p>
+			{% endif %}
 	</div>
 </div>
 
