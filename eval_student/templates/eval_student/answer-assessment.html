@@ -1,0 +1,38 @@
+{% extends 'eval_student/base-sidebar.html'%}
+
+{% load static %}
+
+{% block title %} {{ assessment.name }} {% endblock %}
+
+{% block content%}
+	<!-- Other page content to the right of the NAV BAR -->
+	<div id="main">
+		<h3>{{ assessment.name }} for {{ assessment.course.course_name }}</h3>
+		<h4>Please answer the following questions.</h4>
+		<hr>
+
+		<form action="" method="post"> {% csrf_token %}
+
+			{% for question in question_list %}
+			
+				<h4 style="margin-bottom: 15px;">{{forloop.counter}}. {{ question.question_text }}</h4>
+				<div>
+					<b>1</b>  <input style="width: 90%; color: purple;" type="range" class="custom-range" min="1" max="5" step="1" id="rating_@{{ question.id }}" name="rating_@{{ question.id }}"> <b> 5</b>
+				</div>
+				<hr>
+			{% endfor %}
+			
+			<!-- the submit button  -->
+			<button style="margin-top: 10px;" type="submit" class="buttons purple">Submit</button>
+
+		</form>
+	
+
+		<!-- the discard button  -->
+		<form>
+				<!-- I put form around this button in order to let formaction work as a link -->
+				<button formaction="{% url 'peer-assessments' %}" class="buttons red float-right">Discard</button>
+		</form>
+	</div>
+
+{% endblock %}

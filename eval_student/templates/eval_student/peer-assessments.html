@@ -36,10 +36,10 @@
 							<p> <b>Time left:</b> {{ assessment.time_left }}</p>
 							<hr>
 							
-						
-							<button type="submit" class="btn btn-primary buttons purple float-right">Start</button>
-
-
+							<form>
+								<button formaction="{% url 'answer-assessment' assessment_id=assessment.id %}" class="btn btn-primary buttons purple float-right">Start</button>
+							</form>
+							
 						</div>
 
 					{% endif %}

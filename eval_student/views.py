@@ -34,3 +34,15 @@ def peer_assessments(request):
 # Completed Assessments Page
 def completed_assessments(request):
     return render(request, 'eval_student/completed-assessments.html')
+
+
+# Answer Assessment Page
+def answer_assessment(request, assessment_id):
+    assessment = Assessment.objects.get(pk=assessment_id)
+    questions = assessment.questions.all()
+
+    context = {
+        'assessment': assessment,
+        'question_list': questions,
+    }
+    return render(request, 'eval_student/answer-assessment.html', context=context)
