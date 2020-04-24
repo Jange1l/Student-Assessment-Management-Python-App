@@ -9,9 +9,9 @@ from account.models import User
 from re import search as regex_search
 import datetime
 
+
+
 # Student Dashboard Page
-
-
 def student_dashboard(request):
     return render(request, 'eval_student/student-dashboard.html')
 
@@ -38,11 +38,24 @@ def completed_assessments(request):
 
 # Answer Assessment Page
 def answer_assessment(request, assessment_id):
-    assessment = Assessment.objects.get(pk=assessment_id)
-    questions = assessment.questions.all()
+    assessment = Assessment.objects.get(pk=assessment_id) # the assessment object
+    questions = assessment.questions.all() # set of questions in this assessment
+    teams = Team.objects.filter(course=assessment.course) # set of teams in this course
+
+    # Find the list of people who will be evaluated
+    evaluated_team = None
+    evaluated = []
+    for team in teams:
+        if request.user in team.student.all():
+            evaluated_team = team
+            for each in team.student.all():
+                if each != request.user:
+                    evaluated.append(each)
 
     context = {
         'assessment': assessment,
         'question_list': questions,
+        'team': evaluated_team,
+        'evaluated_list': evaluated,
     }
     return render(request, 'eval_student/answer-assessment.html', context=context)
