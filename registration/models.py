@@ -22,6 +22,8 @@ class Course(models.Model):
     professors = models.ManyToManyField(User)
     students = models.ManyToManyField(User, related_name="students")
     
+    def __str__(self):
+        return "{} {}{}".format(self.course_name, self.year, self.semester)
 
     def is_active(self):
         "Returns whether the course is active."
@@ -45,6 +47,9 @@ class Team(models.Model):
     
     course = models.ForeignKey(Course, on_delete = models.CASCADE) # a Course object
     student = models.ManyToManyField(User) # a querySet of User objects
+
+    def __str__(self):
+        return self.team_name
 
 
 

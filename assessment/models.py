@@ -22,6 +22,9 @@ class Question(models.Model):
     # This way its easier to check for the question type, when ever you need to.
     # E.g. question.type_question == Question.TYPE_QUESTION_TEXT
 
+    def __str__(self):
+        return self.question_text
+
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
@@ -33,6 +36,9 @@ class Answer(models.Model):
 
     date_added = models.DateTimeField("date added", auto_now_add=True)
     date_modified = models.DateTimeField("date modified", auto_now=True)
+
+    def __str__(self):
+        return "Answer #{}".format(self.id)
 
 
 class Assessment(models.Model):
@@ -51,6 +57,9 @@ class Assessment(models.Model):
     answers = models.ManyToManyField(Answer) # a set of Answers under this assessment
 
     completed_students = models.ManyToManyField(User, related_name="completed_students") # a set of Users who have completed this assessment
+
+    def __str__(self):
+        return "{} for {}".format(self.name, self.course.course_name)
 
     def is_current(self):
         "Returns whether the assessment end date is within 60 days."
