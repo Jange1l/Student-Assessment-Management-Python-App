@@ -10,7 +10,7 @@
 		<h3>{{ assessment.name }} for {{ assessment.course.course_name }}</h3>
 		<hr>
 
-		<form action="" method="post"> {% csrf_token %}
+		<form action="{% url 'submit_assessment' assessment_id=assessment.id %}" method="post"> {% csrf_token %}
 
 			{% for student in evaluated_list %}
 				<div class="container">

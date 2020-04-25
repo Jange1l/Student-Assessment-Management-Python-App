@@ -50,6 +50,8 @@ class Assessment(models.Model):
 
     answers = models.ManyToManyField(Answer) # a set of Answers under this assessment
 
+    completed_students = models.ManyToManyField(User, related_name="completed_students") # a set of Users who have completed this assessment
+
     def is_current(self):
         "Returns whether the assessment end date is within 60 days."
         if self.end_date + datetime.timedelta(days=60) > datetime.datetime.now().date(): # end date + 60 >= current date

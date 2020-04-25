@@ -12,6 +12,7 @@
 		<h3>{{ user.first_name }}'s Peer Assessments</h3>
 	</div>
 
+	<!-- assessments to-do -->
 	<div class="container">
 
 		<h2 style="color: #6C63FF; margin-bottom: 0;">To-Do</h2>
@@ -19,7 +20,7 @@
 		{% if assessment_list|length > 0 %}
 			<div class="row">
 				{% for assessment in assessment_list %}
-					{% if not assessment.is_missed %}
+					{% if not assessment.is_missed and request.user not in assessment.completed_students.all %}
 						{% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
 						<div class="col grid-box">
 							<!-- name and course  -->
@@ -50,10 +51,48 @@
 		{% endif %}
 	</div>
 
+
+
+	<!-- assessments completed on time -->
+	<div class="container">
+
+		<h2 style="color: #6C63FF; margin-bottom: 0;">Completed</h2>
+	
+			{% if assessment_list|length > 0 %}
+				<div class="row">
+					{% for assessment in assessment_list %}
+						{% if not assessment.is_missed and request.user in assessment.completed_students.all %}
+							{% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
+							<div class="col grid-box">
+								<!-- name and course  -->
+								<h3> {{ assessment.name }} </h3> 
+								<p style="font-weight: 20;"> for {{ assessment.course.course_name }}</p>
+								<!-- description of the assessment  -->
+								{% if assessment.description != '' %}
+									<p><b>Description:</b> {{ assessment.description }}</p>
+								{% else %}
+									<p><b>Description:</b> No assessment description</p>
+								{% endif %}
+								<!-- dates  -->
+								<p> <b>Due:</b> {{ assessment.end_date }}</p>
+								<hr>
+								<button type="submit" style="background-color: gray; border: gray;" class="btn btn-primary float-right" disabled>Completed</button>
+
+							</div>
+
+						{% endif %}
+					{% endfor %}
+				</div>
+			{% else %}
+				<p>No peer assessment available.</p>
+			{% endif %}
+	</div>
+
+
+	<!-- assessments past due and not completed -->
 	<div class="container">
 
 		<h2 style="color: rgb(255, 91, 92); margin-bottom: 0;">Missed</h2>
-
 	
 			{% if assessment_list|length > 0 %}
 				<div class="row">
@@ -84,6 +123,8 @@
 				<p>No peer assessment available.</p>
 			{% endif %}
 	</div>
+
+
 </div>
 
 {% endblock %}
