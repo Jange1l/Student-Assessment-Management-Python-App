@@ -23,6 +23,18 @@ class Question(models.Model):
     # E.g. question.type_question == Question.TYPE_QUESTION_TEXT
 
 
+class Answer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    evaluator = models.ForeignKey(User, related_name="evaluator", on_delete=models.CASCADE) # the person who evaluates others
+    team_member = models.ForeignKey(User, related_name="team_member", on_delete=models.CASCADE) # the person being evaluated
+
+    answer_text = models.CharField("answer text", max_length=512, null=True) # answer for free response
+    answer_rating = models.SmallIntegerField("answer rating", null=True) # answer for rating question (1-5)
+
+    date_added = models.DateTimeField("date added", auto_now_add=True)
+    date_modified = models.DateTimeField("date modified", auto_now=True)
+
+
 class Assessment(models.Model):
     name = models.CharField("assessment name", max_length=255)
     description = models.TextField("description", max_length=512, blank=True)
@@ -35,6 +47,8 @@ class Assessment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE) # the course that this peer review belongs to 
 
     questions = models.ManyToManyField(Question) # a set of Questions under this assessment
+
+    answers = models.ManyToManyField(Answer) # a set of Answers under this assessment
 
     def is_current(self):
         "Returns whether the assessment end date is within 60 days."
@@ -58,11 +72,3 @@ class Choice(models.Model):
     question = models.ForeignKey(Question, related_name="question_choices", on_delete=models.CASCADE)
     choice_text = models.CharField("choice text", max_length=200)
 
-
-class Answer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    evaluator = models.ForeignKey(User, related_name="evaluator", on_delete=models.CASCADE) # the person who evaluates others
-    team_member = models.ForeignKey(User, related_name="team_member", on_delete=models.CASCADE) # the person being evaluated
-    answer_text = models.CharField("answer text", max_length=512, null=True)
-    date_added = models.DateTimeField("date added", auto_now_add=True)
-    date_modified = models.DateTimeField("date modified", auto_now=True)
