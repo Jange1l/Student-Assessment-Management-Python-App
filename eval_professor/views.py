@@ -20,8 +20,10 @@ def professor_dashboard(request):
 
 # All Assessments Page
 def all_assessments(request):
+    team_list = Team.objects.all()
     assessment_list = Assessment.objects.all()
     context = {
+        'team_list': team_list,
         'assessment_list': assessment_list,
     }
     return render(request, 'eval_professor/all-assessments.html', context = context)

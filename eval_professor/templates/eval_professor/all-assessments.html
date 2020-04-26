@@ -60,15 +60,17 @@
 							<h4> <b>Time:</b> {{ assessment.start_date }} - {{ assessment.end_date }}</h4>
 							<hr>
 							<!-- show other submissions info -->
-							<h4> <b>Number of submissions:</b> {{ course.students.all|length }} </h4>
+							<h4> <b>Number of submissions:</b> {{ assessment.completed_students.all|length }} </h4>
 
-							<!-- the following is for the collapse style to show info -->
+							<!-- ********************the following is for the collapse style to show info******************** -->
 							<div style="margin-top: 2%; margin-bottom: 2%;">
+
+								<!-- Questions in the assessment  -->
 								<div class="card">
 									<div class="card-header" id="headingOne_@{{ assessment.id }}">
 										<h5 class="mb-0">
 											<button style="color: #6C63FF;" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne_@{{ assessment.id }}" aria-expanded="true" aria-controls="collapseOne_@{{ assessment.id }}">
-												Show all questions
+												Questions in the assessment
 											</button>
 										</h5>
 									</div>
@@ -80,29 +82,95 @@
 												<p>No students in the course.</p>
 											{% else %}
 												{% for question in assessment.questions.all|dictsort:"id" %}
-													<p>{{ question.question_text }} <b>Answer Type:</b> {{ question.type_answer }} </p>
+													<p>{{forloop.counter}}. {{ question.question_text }} <b> Type: </b> {{ question.type_answer }} </p>
 												{% endfor %}
 											{% endif %}
 										</div>
 									</div>
 								</div>
 
+								<!-- Students who have not completed the assessment -->
 								<div class="card">
 									<div class="card-header" id="headingTwo_@{{ assessment.id }}">
 										<h5 class="mb-0">
 											<button style="color: #6C63FF;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo_@{{ assessment.id }}" aria-expanded="false" aria-controls="collapseTwo_@{{ assessment.id }}">
-												Submissions
+												Students who have not completed the assessment
 											</button>
 										</h5>
 									</div>
 									<div id="collapseTwo_@{{ assessment.id }}" class="collapse" aria-labelledby="headingTwo_@{{ assessment.id }}" data-parent="#accordion">
 										<div class="card-body">
-											No submissions yet.
+											{% for student in assessment.course.students.all %}
+												{% if student not in assessment.completed_students.all %}
+													{{student.first_name}} {{student.last_name}};
+												{% endif %}
+											{% endfor %}
 
 										</div>
 									</div>
 								</div>
 								
+								<!-- Aggregated Results -->
+								<div class="card">
+									<div class="card-header" id="headingThree_@{{ assessment.id }}">
+										<h5 class="mb-0">
+											<button style="color: #6C63FF;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree_@{{ assessment.id }}" aria-expanded="false" aria-controls="collapseThree_@{{ assessment.id }}">
+												Results
+											</button>
+										</h5>
+									</div>
+									<div id="collapseThree_@{{ assessment.id }}" class="collapse" aria-labelledby="headingThree_@{{ assessment.id }}" data-parent="#accordion">
+										<div class="card-body">
+											<h4>Results for teams:</h4>
+											<p>Click on team names for details.</p>
+											{% for team in team_list %}
+												{% if team.course == assessment.course %}
+										
+													<!-- Team Details -->
+													<div class="card">
+														<div style="padding: 4px;" class="card-header" id="headingTeam_@{{ assessment.id }}{{ team.id }}">
+															<h5 class="mb-0">
+																<button style="color: #6C63FF;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTeam_@{{ assessment.id }}{{ team.id }}" aria-expanded="false" aria-controls="collapseTeam_@{{ assessment.id }}{{ team.id }}">
+																	{{team.team_name}} 
+																</button>
+															</h5>
+														</div>
+														<div id="collapseTeam_@{{ assessment.id }}{{ team.id }}" class="collapse" aria-labelledby="headingTeam_@{{ assessment.id }}{{ team.id }}" data-parent="#accordion">
+															<div class="card-body">
+																<h4 style="font-size: 18px;">Results for students:</h4>
+																{% for student in team.student.all %}
+																	
+																	<!-- Student Details -->
+																	<div class="card">
+																		<div style="padding: 0%;" class="card-header" id="headingStudent_@{{ assessment.id }}{{ team.id }}{{ student.id }}">
+																			<h5 class="mb-0">
+																				<button style="color: #6C63FF;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseStudent_@{{ assessment.id }}{{ team.id }}{{ student.id }}" aria-expanded="false" aria-controls="collapseStudent_@{{ assessment.id }}{{ team.id }}{{ student.id }}">
+																					{{student.first_name}} {{student.last_name}}
+																				</button>
+																			</h5>
+																		</div>
+																		<div id="collapseStudent_@{{ assessment.id }}{{ team.id }}{{ student.id }}" class="collapse" aria-labelledby="headingStudent_@{{ assessment.id }}{{ team.id }}{{ student.id }}" data-parent="#accordion">
+																			<div class="card-body">
+																				RESULTS
+																				<!-- NEED TO ADD STUFF HERE  -->
+																			</div>
+																		</div>
+																	</div>
+
+																{% endfor %}
+					
+															</div>
+														</div>
+													</div>
+
+												{% endif %}
+											{% endfor %}
+
+										</div>
+									</div>
+								</div>
+
+
 							</div>
 							<!-- collapse - info END -->
 							<hr>

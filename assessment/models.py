@@ -40,6 +40,12 @@ class Answer(models.Model):
     def __str__(self):
         return "Answer #{}".format(self.id)
 
+    def get_answer(self):
+        if self.question.type_answer == self.question.TYPE_Rating:
+            return self.answer_rating
+        else:
+            return self.answer_text
+
 
 class Assessment(models.Model):
     name = models.CharField("assessment name", max_length=255)
