@@ -2,10 +2,11 @@ from django.db import models
 
 # models from other Apps
 from account.models import User
-from registration.models import Course
+from registration.models import Course, Team
 
 # python packages
 import datetime
+import numpy as np
 
 
 class Question(models.Model):
@@ -47,6 +48,23 @@ class Answer(models.Model):
             return self.answer_text
 
 
+class Result_set(models.Model):
+    student = models.ForeignKey(User, related_name="evaluated_student", on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+
+    rating_answers = models.ManyToManyField(Answer, related_name="rating_answers") # a set of rating Answers under this assessment
+
+    text_answers = models.ManyToManyField(Answer, related_name="text_answers") # a set of text Answers under this assessment
+
+    def get_overall_average(self):
+        scores = [answer.answer_rating for answer in rating_answers] # a list of scores
+        return np.mean(scores)
+
+    def get_per_question_average(self, q_id):
+        scores = [answer.answer_rating for answer in self.rating_answers if answer.question.id == q_id] # a list of scores of that question
+        return np.mean(scores)
+
+
 class Assessment(models.Model):
     name = models.CharField("assessment name", max_length=255)
     description = models.TextField("description", max_length=512, blank=True)
@@ -60,7 +78,7 @@ class Assessment(models.Model):
 
     questions = models.ManyToManyField(Question) # a set of Questions under this assessment
 
-    answers = models.ManyToManyField(Answer) # a set of Answers under this assessment
+    result_sets = models.ManyToManyField(Result_set) # a set of Result_sets under this assessment
 
     completed_students = models.ManyToManyField(User, related_name="completed_students") # a set of Users who have completed this assessment
 

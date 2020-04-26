@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Assessment, Question, Answer
+from .models import Assessment, Question, Answer, Result_set
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -26,16 +26,28 @@ class AnswerAdmin(admin.ModelAdmin):
     list_display = ('id', 'question', 'evaluator', 'team_member')
 
 
+class Result_setAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,               {'fields': ['student', 
+                                         'team',
+                                         'rating_answers',
+                                         'text_answers',
+                                        ]}),
+    ]
+
+    list_display = ('id', 'student', 'team')
+
+
 
 class AssessmentAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['name', 
                                          'description',
                                          'course',
+                                         'completed_students',
                                         ]}),
         ('Date information', {'fields': ['start_date', 'end_date']}),
         ('Questions', {'fields': ['questions']}),
-        ('Answers', {'fields': ['answers']}),
     ]
 
     list_display = ('name', 'course', 'end_date')
@@ -44,4 +56,5 @@ class AssessmentAdmin(admin.ModelAdmin):
 
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
+admin.site.register(Result_set, Result_setAdmin)
 admin.site.register(Assessment, AssessmentAdmin)

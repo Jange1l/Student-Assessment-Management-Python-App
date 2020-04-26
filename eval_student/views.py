@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 
 # models imported from other apps
 from registration.models import Course, Team
-from assessment.models import Assessment, Question, Answer
+from assessment.models import Assessment, Question, Answer, Result_set
 from account.models import User
 
 # import Python packages
@@ -77,12 +77,23 @@ def submit_assessment(request, assessment_id):
                 if each != request.user:
                     evaluated.append(each)
 
-    # create answer instances and save to the answer set in assessment
+    # create result_set instances to store answers
+    for each_student in evaluated:
+        if len(Result_set.objects.filter(student=each_student, team=evaluated_team)) == 0: # if such Result_set does not exist, create one
+            result_set = Result_set(
+                                student = each_student,
+                                team = evaluated_team,            
+                        )
+            result_set.save()
+
     for student_evaluated in evaluated:
+        # find the result_set of the student being evaluated
+        result_set = Result_set.objects.filter(student=student_evaluated, team=evaluated_team).first()
         for question in questions:
             name_for_post = "q_@{}".format(question.id)
             ans = request.POST[name_for_post]
 
+            # create answer instances 
             if question.type_answer == question.TYPE_Rating:
                 answer = Answer(
                             question = question,
@@ -91,6 +102,10 @@ def submit_assessment(request, assessment_id):
                             answer_text = None,
                             answer_rating = int(ans),
                         )
+                answer.save()
+                # add the answer to the Result_set.rating_answers
+                result_set.rating_answers.add(answer)
+                result_set.save()
             else:
                 answer = Answer(
                             question = question,
@@ -99,11 +114,14 @@ def submit_assessment(request, assessment_id):
                             answer_text = ans,
                             answer_rating = None,
                         )
-            answer.save()
-
-            # add the answer to the answer set under this assessment
-            assessment.answers.add(answer)
-            assessment.save()
+                answer.save()
+                # add the answer to the Result_set.text_answers
+                result_set.text_answers.add(answer)
+                result_set.save()
+            
+        # add the Result_set to this assessment
+        assessment.result_sets.add(result_set)
+        assessment.save()
  
     # add the current user to the set of users who have completed this assessment
     assessment.completed_students.add(request.user)
