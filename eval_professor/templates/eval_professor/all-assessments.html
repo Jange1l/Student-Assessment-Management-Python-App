@@ -176,9 +176,15 @@
 																				<!-- Per Question Average  -->
 																				{% if personal_result != None %}
 																					{% for question in assessment.questions.all %}
-																						{% get_per_question_average personal_result question.id as per_q_avg %}
-																						<!-- print  -->
-																						Question {{forloop.counter}}: {{ per_q_avg }}
+																						{% if question.type_answer == question.TYPE_Rating %}
+																							<!-- find per question avg  -->
+																							{% get_per_question_average personal_result question.id as per_q_avg %}
+																							<!-- print  -->
+																							<p>Question {{forloop.counter}}: {{ per_q_avg }}</p> 
+																						{% else %}
+																							<!-- print  -->
+																							<p>Question {{forloop.counter}}: Free Response</p>
+																						{% endif %}
 																					{% endfor %}
 																				{% endif %}
 																			</div>

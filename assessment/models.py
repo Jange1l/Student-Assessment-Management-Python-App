@@ -58,7 +58,7 @@ class Result_set(models.Model):
 
     def get_overall_average(self):
         scores = [answer.answer_rating for answer in self.rating_answers.all()] # a list of scores
-        return np.mean(scores)
+        return round(np.mean(scores), 2)
 
     # def get_per_question_average(self, q_id):
     #     scores = [answer.answer_rating for answer in self.rating_answers.all() if answer.question.id == q_id] # a list of scores of that question

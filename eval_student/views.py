@@ -90,7 +90,7 @@ def submit_assessment(request, assessment_id):
         # find the result_set of the student being evaluated
         result_set = Result_set.objects.filter(student=student_evaluated, team=evaluated_team).first()
         for question in questions:
-            name_for_post = "q_@{}".format(question.id)
+            name_for_post = "q_@{}{}".format(student_evaluated.eagle_id, question.id)
             ans = request.POST[name_for_post]
 
             # create answer instances 

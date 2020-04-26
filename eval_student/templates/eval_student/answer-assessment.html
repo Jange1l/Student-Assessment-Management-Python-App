@@ -22,10 +22,10 @@
 					<h4 style="margin-bottom: 15px; margin-top: 30px;">{{forloop.counter}}. {{ question.question_text }}</h4>
 					{% if question.type_answer == question.TYPE_Rating %}
 						<div>
-							<b>1</b>  <input style="width: 95%;" type="range" class="custom-range" min="1" max="5" step="1" id="q_@{{ question.id }}" name="q_@{{ question.id }}"> <b> 5</b>
+							<b>1</b>  <input style="width: 95%;" type="range" class="custom-range" min="1" max="5" step="1" id="q_@{{ student.eagle_id }}{{ question.id }}" name="q_@{{ student.eagle_id }}{{ question.id }}"> <b> 5</b>
 						</div>
 					{% else %}
-						<textarea style="width: 95%;" rows="5" id="q_@{{ question.id }}" name="q_@{{ question.id }}">Enter your answer here.</textarea>
+						<textarea style="width: 95%;" rows="5" id="q_@{{ student.eagle_id }}{{ question.id }}" name="q_@{{ student.eagle_id }}{{ question.id }}">Enter your answer here.</textarea>
 					{% endif %}
 				</div>
 				{% endfor %}

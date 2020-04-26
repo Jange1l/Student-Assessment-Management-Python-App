@@ -17,7 +17,7 @@ def get_class_average(course, assessment):
         for result_set in Result_set.objects.filter(team=team).all():
             if result_set in assessment.result_sets.all(): # check if this result_set is under this assessment
                 result_set_list.append(result_set)
-    return np.mean([result_set.get_overall_average() for result_set in result_set_list])
+    return round(np.mean([result_set.get_overall_average() for result_set in result_set_list]), 2)
 
 
 
@@ -28,7 +28,7 @@ def get_team_average(team, assessment):
     for result_set in Result_set.objects.filter(team=team).all():
             if result_set in assessment.result_sets.all(): # check if this result_set is under this assessment
                 result_set_list.append(result_set)
-    return np.mean([result_set.get_overall_average() for result_set in result_set_list])
+    return round(np.mean([result_set.get_overall_average() for result_set in result_set_list]), 2)
 
 
 @register.simple_tag
@@ -40,4 +40,4 @@ def find_result_set(result_sets, student, team):
 @register.simple_tag
 def get_per_question_average(result_set, q_id):
         scores = [answer.answer_rating for answer in result_set.rating_answers.all() if answer.question.id == q_id] # a list of scores of that question
-        return np.mean(scores)
+        return round(np.mean(scores), 2)
