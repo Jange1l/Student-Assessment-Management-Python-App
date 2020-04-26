@@ -1,5 +1,8 @@
 {% extends 'eval_professor/base-sidebar.html'%}
 
+<!-- Load templatetags -->
+{% load eval_professor_extras %}
+
 {% load static %}
 
 {% block title %} All Assessments {% endblock %}
@@ -61,6 +64,8 @@
 							<hr>
 							<!-- show other submissions info -->
 							<h4> <b>Number of submissions:</b> {{ assessment.completed_students.all|length }} </h4>
+							{% get_class_average assessment.course assessment as class_avg %}
+							<h4> <b>Average Score:</b> {{ class_avg }} </h4>
 
 							<!-- ********************the following is for the collapse style to show info******************** -->
 							<div style="margin-top: 2%; margin-bottom: 2%;">
@@ -131,7 +136,13 @@
 														<div style="padding: 4px;" class="card-header" id="headingTeam_@{{ assessment.id }}{{ team.id }}">
 															<h5 class="mb-0">
 																<button style="color: #6C63FF;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTeam_@{{ assessment.id }}{{ team.id }}" aria-expanded="false" aria-controls="collapseTeam_@{{ assessment.id }}{{ team.id }}">
-																	{{team.team_name}} 
+																	<!-- calculate team avg  -->
+																	{% get_team_average team assessment as team_avg %}
+																	<!-- print -->
+																	<p style="margin: 0em;">
+																		<span>{{team.team_name}} </span> &nbsp 
+																		<span style="color: black;">Team Average: {{ team_avg }}</span>
+																	</p>
 																</button>
 															</h5>
 														</div>
@@ -144,15 +155,32 @@
 																	<div class="card">
 																		<div style="padding: 0%;" class="card-header" id="headingStudent_@{{ assessment.id }}{{ team.id }}{{ student.id }}">
 																			<h5 class="mb-0">
-																				<button style="color: #6C63FF;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseStudent_@{{ assessment.id }}{{ team.id }}{{ student.id }}" aria-expanded="false" aria-controls="collapseStudent_@{{ assessment.id }}{{ team.id }}{{ student.id }}">
-																					{{student.first_name}} {{student.last_name}}
+																				<button style="color: #6C63FF; text-decoration: none;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseStudent_@{{ assessment.id }}{{ team.id }}{{ student.id }}" aria-expanded="false" aria-controls="collapseStudent_@{{ assessment.id }}{{ team.id }}{{ student.id }}">
+																					<!-- load result_set instance into result  -->
+																					{% find_result_set assessment.result_sets student team as personal_result %}
+																					<!-- print  -->
+																					<p style="margin: 0em;">
+																						<span>{{student.first_name}} {{student.last_name}}</span> &nbsp 
+																						{% if personal_result.get_overall_average != None %}
+																							<span style="color: black;">Average Score: {{ personal_result.get_overall_average }}</span>
+																						{% else %}
+																							<span style="color: black;">Unrated</span>
+																						{% endif %}
+																					</p>
 																				</button>
 																			</h5>
 																		</div>
 																		<div id="collapseStudent_@{{ assessment.id }}{{ team.id }}{{ student.id }}" class="collapse" aria-labelledby="headingStudent_@{{ assessment.id }}{{ team.id }}{{ student.id }}" data-parent="#accordion">
 																			<div class="card-body">
-																				RESULTS
-																				<!-- NEED TO ADD STUFF HERE  -->
+																				<p>Average score of each question:</p>
+																				<!-- Per Question Average  -->
+																				{% if personal_result != None %}
+																					{% for question in assessment.questions.all %}
+																						{% get_per_question_average personal_result question.id as per_q_avg %}
+																						<!-- print  -->
+																						Question {{forloop.counter}}: {{ per_q_avg }}
+																					{% endfor %}
+																				{% endif %}
 																			</div>
 																		</div>
 																	</div>
