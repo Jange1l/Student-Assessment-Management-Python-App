@@ -17,8 +17,9 @@
   
 **Assessment App:**
   - Question Model
-  - Question Set Model
   - Answer Model
+  - Result_set Model
+  - Assessment Model
   
   
 **Login App:**
