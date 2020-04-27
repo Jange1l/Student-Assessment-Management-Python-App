@@ -1,5 +1,14 @@
 # Delivery 4 - The Eagles
 
+## Installation
+  - Install dependencies with pip  
+    `$ pip install -r requirements.txt`
+  - Run the server    
+    `$ python manage.py runserver`  
+  - Migration   
+    `$ python manage.py makemigrations 'app name'`  
+    `$ python manage.py migrate`  
+
 ## Apps in the project
 **Project Folder:**
   - settings
