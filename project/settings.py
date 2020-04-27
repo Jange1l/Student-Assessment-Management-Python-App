@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'account',  # User Model
-    'login',
+    'login.apps.LoginConfig',
     'eval_student',
     'eval_professor',
     'registration',  # Course, Team Model

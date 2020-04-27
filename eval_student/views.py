@@ -21,6 +21,7 @@ def peer_assessments(request):
     assessment_list = Assessment.objects.all()
     filtered_list = []
     for i in assessment_list:
+       print(i.start_date) 
        if  request.user in i.course.students.all():
            filtered_list.append(i)
         
