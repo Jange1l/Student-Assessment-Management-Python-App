@@ -25,7 +25,7 @@
 							<b>1</b>  <input style="width: 95%;" type="range" class="custom-range" min="1" max="5" step="1" id="q_@{{ student.eagle_id }}{{ question.id }}" name="q_@{{ student.eagle_id }}{{ question.id }}"> <b> 5</b>
 						</div>
 					{% else %}
-						<textarea style="width: 95%;" rows="5" id="q_@{{ student.eagle_id }}{{ question.id }}" name="q_@{{ student.eagle_id }}{{ question.id }}">Enter your answer here.</textarea>
+						<textarea style="width: 95%;" rows="5" id="q_@{{ student.eagle_id }}{{ question.id }}" name="q_@{{ student.eagle_id }}{{ question.id }}"></textarea>
 					{% endif %}
 				</div>
 				{% endfor %}

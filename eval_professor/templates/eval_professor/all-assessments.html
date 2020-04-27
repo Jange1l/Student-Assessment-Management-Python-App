@@ -182,8 +182,10 @@
 																							<!-- print  -->
 																							<p>Question {{forloop.counter}}: {{ per_q_avg }}</p> 
 																						{% else %}
+																						
+																							{% get_free_response personal_result question.id as free_response_text %}
 																							<!-- print  -->
-																							<p>Question {{forloop.counter}}: Free Response</p>
+																							<p>Question {{forloop.counter}}: {{ free_response_text }}</p>
 																						{% endif %}
 																					{% endfor %}
 																				{% endif %}
