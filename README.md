@@ -53,11 +53,11 @@
   - teams & students page
 
 ## Data Models
-  - User Model (extends the built-in Django User Model)
-  - Course Model
-  - Team Model
-  - Question Model
-  - Answer Model
-  - Result_set Model
-  - Assessment Model
+  1. User Model (extends the built-in Django User Model)
+  2. Course Model
+  3. Team Model
+  4. Question Model
+  5. Answer Model
+  6. Result_set Model
+  7. Assessment Model
   
