@@ -8,6 +8,8 @@
   - Migration   
     `$ python manage.py makemigrations 'app name'`  
     `$ python manage.py migrate`  
+    
+ Suggested Browser: Google Chrome
 
 ## Apps in the project
 **Project Folder:**
