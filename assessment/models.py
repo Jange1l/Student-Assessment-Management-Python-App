@@ -74,6 +74,8 @@ class Assessment(models.Model):
     start_date = models.DateField("start date")
     end_date = models.DateField("end date")
 
+    open_status = models.BooleanField("open status", default=True)
+
     course = models.ForeignKey(Course, on_delete=models.CASCADE) # the course that this peer review belongs to 
 
     questions = models.ManyToManyField(Question) # a set of Questions under this assessment
@@ -100,6 +102,9 @@ class Assessment(models.Model):
         if time[0] == '-':
             return True
         return False
+
+    def is_open(self):
+        return self.open_status
 
 
 

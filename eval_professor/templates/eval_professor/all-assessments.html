@@ -252,8 +252,37 @@
 
 							</div>
 							<!-- collapse - info END -->
-							<hr>
 
+							<hr>
+							<!-- Close Modal button trigger -->
+							<button type="submit" class="btn btn-primary buttons purple float-right" data-toggle="modal" data-target="#closeModal_@{{ assessment.id }}">
+								Close Assessment and Release Results
+							</button>
+							<!-- modal  -->
+							<div class="modal fade" id="closeModal_@{{ assessment.id }}" tabindex="-1" role="dialog" aria-labelledby="closeModalLabel_@{{ assessment.id }}" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+								  <div class="modal-content">
+									<div class="modal-header">
+									  <h5 class="modal-title" id="closeModalLongTitle_@{{ assessment.id }}">Please confirm your action</h5>
+									  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									  </button>
+									</div>
+									<div class="modal-body">
+										<h4>Once you close this assessment, you cannot restart it.</h4>
+										<h4>Are you sure to close the assessment and make results visible to students?</h4>
+									</div>
+									<div class="modal-footer">
+									  	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+									  	<form>
+									  		<button formaction="" class="btn btn-primary">YES. Close Assessment</button>
+										</form>
+									</div>
+								  </div>
+								</div>
+							</div>
+							<!-- end of close assessment modal  -->
+							
 						</div>
 				
 					{% endif %}
