@@ -75,9 +75,11 @@
 										<span aria-hidden="true">&times;</span>
 									</button>
 									</div>
-									<div class="modal-body">
-										<!-- the form to update dates  -->
-										<form action="" method="post"> {% csrf_token %}
+									<!-- the form to update dates  -->
+									<form action="{% url 'update_dates' assessment_id=assessment.id %}" method="post"> {% csrf_token %}
+										<div class="modal-body">
+											
+											<!-- inputs for POST -->
 											<div class="form-group">
 												<label for="startDate">Start Date</label>
 												<input type="date" placeholder="yyyy-mm-dd" class="form-control" name="start date" id="startdate" aria-describedby="startdateHelp" >
@@ -89,12 +91,13 @@
 												<input type="date" placeholder="yyyy-mm-dd" class="form-control" name="end date" id="enddate" aria-describedby="enddateHelp">
 												<small id="enddateHelp" class="form-text text-muted">Note that, if you change the date to a date in the past, the assessment will close automatically.</small>
 											</div>
-										</form>
-									</div>
-									<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary">Save changes</button>
-									</div>
+											
+										</div>
+										<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										<button type="submit" class="btn btn-primary">Save changes</button>
+										</div>
+									</form>
 								</div>
 								</div>
 							</div>

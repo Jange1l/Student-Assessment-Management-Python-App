@@ -361,3 +361,28 @@ def delete_assessment(request, assessment_id):
     assessment.delete()
     messages.error(request, 'Assessment deleted')
     return all_assessments(request) # refresh page
+
+
+# Update start date and due date for assessment
+def update_dates(request, assessment_id):
+    start_dt = request.POST['start date']
+    end_dt = request.POST['end date']
+
+    valid = False
+    
+    # Validate Date Format
+    if regex_search(r'[0-9]+\-[0-9]+\-[0-9]+', start_dt) and regex_search(r'[0-9]+\-[0-9]+\-[0-9]+', end_dt):
+        st_dt_list = start_dt.split('-')
+        end_dt_list = end_dt.split('-')
+        valid = True
+    else:
+        messages.error(request, "Error: Incorrect date format. Use yyyy-mm-dd")
+
+    if valid:
+        assessment = get_object_or_404(Assessment, pk=assessment_id) # get the assessment instance
+        assessment.start_date = start_dt
+        assessment.end_date = end_dt
+        assessment.save()
+
+    return all_assessments(request) # refresh page
+    

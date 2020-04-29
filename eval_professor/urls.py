@@ -28,5 +28,6 @@ urlpatterns = [
     # functions for assessment
     path('make_new_assessment', views.make_new_assessment, name='make_new_assessment'),
     path('delete_assessment/<int:assessment_id>/', views.delete_assessment, name='delete_assessment'),
+    path('update_dates/<int:assessment_id>/', views.update_dates, name='update_dates'),
     
 ]
