@@ -114,6 +114,33 @@ body {
   }
 
 
+/*  --------- HELP ----------- */
+.help-btn {
+  color: #9391de; 
+  border: 1px solid #9391de; 
+  background-color: #f3f4f4;
+}
+
+.help-btn:hover {
+  -webkit-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  -moz-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  -ms-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  -o-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  background-color: #9391de;
+  border: 1px solid #9391de; 
+  color: white;
+  text-decoration: none;
+}
+
+.help-text {
+  color: #9391de; 
+}
+
+.help-text:hover {
+  color: #4a49ac; 
+}
+
 /* -------------------- GRIDS ------------------ */
 
 .row {
