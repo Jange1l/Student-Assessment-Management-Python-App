@@ -4,6 +4,7 @@ from registration.models import Course, Team
 from assessment.models import Assessment, Question, Result_set
 from account.models import User
 
+import numpy as np
 
 register = template.Library()
 
@@ -29,4 +30,20 @@ def get_answer_list(assessment, student, current_user):
         if answer.evaluator == current_user:
             answer_list.append(answer)
     return answer_list
-    
+
+
+@register.simple_tag
+def find_result_set(result_sets, student, course):
+    """Returns the Result_set instance of the given student in the given team"""
+    # find the team that the student is in
+    for team in Team.objects.filter(course=course).all():
+        if student in team.student.all():
+            the_team = team
+            break
+    return result_sets.filter(student=student, team=the_team).first()
+
+
+@register.simple_tag
+def get_per_question_average(result_set, q_id):
+        scores = [answer.answer_rating for answer in result_set.rating_answers.all() if answer.question.id == q_id] # a list of scores of that question
+        return round(np.mean(scores), 2)

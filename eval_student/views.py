@@ -23,7 +23,7 @@ def peer_assessments(request):
     filtered_list = []
     for i in assessment_list:
        print(i.start_date) 
-       if  request.user in i.course.students.all():
+       if request.user in i.course.students.all():
            filtered_list.append(i)
         
     context = {
@@ -35,7 +35,15 @@ def peer_assessments(request):
 
 # Completed Assessments Page
 def completed_assessments(request):
-    return render(request, 'eval_student/completed-assessments.html')
+    assessment_list = Assessment.objects.all()
+    filtered_list = []
+    for assessment in assessment_list:
+       if request.user in assessment.course.students.all() and not assessment.is_open():
+           filtered_list.append(assessment)
+    context = {
+        'assessment_list': filtered_list,
+    }
+    return render(request, 'eval_student/completed-assessments.html', context=context)
 
 
 # Answer Assessment Page

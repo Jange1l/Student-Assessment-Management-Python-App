@@ -130,7 +130,7 @@
 										<div class="card-body">
 											<!-- print questions -->
 											{% if assessment.questions.all|length == 0 %}
-												<p>No students in the course.</p>
+												<p>No questions.</p>
 											{% else %}
 												{% for question in assessment.questions.all|dictsort:"id" %}
 													<p>{{forloop.counter}}. {{ question.question_text }} <b> Type: </b> {{ question.type_answer }} </p>
@@ -377,7 +377,7 @@
 										<div class="card-body">
 											<!-- print questions -->
 											{% if assessment.questions.all|length == 0 %}
-												<p>No students in the course.</p>
+												<p>No questions.</p>
 											{% else %}
 												{% for question in assessment.questions.all|dictsort:"id" %}
 													<p>{{forloop.counter}}. {{ question.question_text }} <b> Type: </b> {{ question.type_answer }} </p>
