@@ -23,7 +23,7 @@
 		{% if assessment_list|length > 0 %}
 			<div class="row">
 				{% for assessment in assessment_list %}
-					{% if not assessment.is_missed and request.user not in assessment.completed_students.all %}
+					{% if not assessment.is_missed and request.user not in assessment.completed_students.all and not assessment.is_open %}
 						{% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
 						<div class="col grid-box">
 							<!-- name and course  -->
@@ -161,7 +161,7 @@
 			{% if assessment_list|length > 0 %}
 				<div class="row">
 					{% for assessment in assessment_list %}
-						{% if assessment.is_missed %}
+						{% if assessment.is_missed or not assessment.is_open %}
 							{% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
 							<div class="col grid-box">
 								<!-- name and course  -->
@@ -176,7 +176,11 @@
 								<!-- dates  -->
 								<p> <b>Due:</b> {{ assessment.end_date }}</p>
 								<hr>
-								<button type="submit" style="background-color: gray; border: gray;" class="btn btn-primary float-right" disabled>Past due</button>
+								{% if not assessment.is_open %}
+									<button type="button" class="btn btn-secondary float-right" disabled>Closed</button>
+								{% else %}
+									<button type="button" class="btn btn-secondary float-right" disabled>Past due</button>
+								{% endif %}
 
 							</div>
 

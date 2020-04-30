@@ -47,3 +47,12 @@ def find_result_set(result_sets, student, course):
 def get_per_question_average(result_set, q_id):
         scores = [answer.answer_rating for answer in result_set.rating_answers.all() if answer.question.id == q_id] # a list of scores of that question
         return round(np.mean(scores), 2)
+
+@register.simple_tag
+def get_free_response(result_set, q_id):
+        text = ''
+        for answer in result_set.text_answers.all():
+            if answer.question.id == q_id:
+                text += answer.get_answer()
+                text += ';'
+        return text

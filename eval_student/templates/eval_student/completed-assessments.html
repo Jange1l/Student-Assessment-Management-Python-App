@@ -31,6 +31,9 @@
 						<hr>
 						{% find_result_set assessment.result_sets request.user assessment.course as result_set %}
 						<h4><b>Your overall score:</b> {{ result_set.get_overall_average }}</h4>
+						{% if result_set.get_overall_average == 0 %}
+							<p>Your score is 0 because you missed the deadline of this assessment.</p>
+						{% endif %}
 						
 						
 						<div style="margin-top: 2%; margin-bottom: 2%;">
@@ -53,8 +56,17 @@
 											<p>No students in the course.</p>
 										{% else %}
 											{% for question in assessment.questions.all|dictsort:"id" %}
-												{% get_per_question_average result_set question.id as per_q_avg %}
-												<p>Question {{forloop.counter}}: {{ question.question_text }} <b> Score: </b> {{ per_q_avg }}</p>
+												{% if question.type_answer == question.TYPE_Rating %}
+													<!-- find per question avg  -->
+													{% get_per_question_average result_set question.id as per_q_avg %}
+													<p>Question {{forloop.counter}}: {{ question.question_text }} <b> Score: </b> {{ per_q_avg }}</p>
+												{% else %}
+						
+													{% get_free_response personal_result question.id as free_response_text %}
+													<!-- print  -->
+													<p>Question {{forloop.counter}}: {{ free_response_text }}</p>
+												{% endif %}
+												
 											{% endfor %}
 										{% endif %}
 									</div>
