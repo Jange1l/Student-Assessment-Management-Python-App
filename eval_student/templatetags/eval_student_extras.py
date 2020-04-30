@@ -18,13 +18,15 @@ def get_eval_list(assessment, current_user):
 
 
 @register.simple_tag
-def get_answer_list(assessment, student):
+def get_answer_list(assessment, student, current_user):
     """Returns a list of answers for the student"""
     result_set = assessment.result_sets.filter(student=student).first()
     answer_list = []
     for answer in result_set.rating_answers.all():
-        answer_list.append(answer)
+        if answer.evaluator == current_user:
+            answer_list.append(answer)
     for answer in result_set.text_answers.all():
-        answer_list.append(answer)
+        if answer.evaluator == current_user:
+            answer_list.append(answer)
     return answer_list
     

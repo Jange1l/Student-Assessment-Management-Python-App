@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 
 # models imported from other apps
 from registration.models import Course, Team
@@ -168,4 +169,5 @@ def edit_assessment(request, assessment_id):
         # update assessment
         assessment.save()
 
+    messages.error(request, "Your edits to your answers are saved")
     return peer_assessments(request)
