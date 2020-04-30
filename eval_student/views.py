@@ -153,7 +153,7 @@ def edit_assessment(request, assessment_id):
 
     for student_evaluated in evaluated:
         # find the result_set of the student being evaluated
-        result_set = Result_set.objects.filter(student=student_evaluated, team=evaluated_team).first()
+        result_set = assessment.result_sets.filter(student=student_evaluated, team=evaluated_team).first()
         for question in questions:
             name_for_post = "q_@{}{}".format(student_evaluated.eagle_id, question.id)
             ans = request.POST[name_for_post]

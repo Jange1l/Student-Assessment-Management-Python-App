@@ -108,7 +108,10 @@
 							<!-- show other submissions info -->
 							<h4> <b>Number of submissions:</b> {{ assessment.completed_students.all|length }} </h4>
 							{% get_class_average assessment.course assessment as class_avg %}
-							<h4> <b>Average Score:</b> {{ class_avg }} </h4>
+							<h4> <b>Current Average Score:</b> {{ class_avg }} </h4>
+							<p style="font-size: 12px; font-weight: 50;">
+								Note: The current average is only based on submissions received so far. The value would vary if you close the assessment.
+							</p>
 
 							<!-- ********************the following is for the collapse style to show info******************** -->
 							<div style="margin-top: 2%; margin-bottom: 2%;">
@@ -350,8 +353,12 @@
 							<hr>
 							<!-- show other submissions info -->
 							<h4> <b>Number of submissions:</b> {{ assessment.completed_students.all|length }} </h4>
+							{% get_class_avg_no_0 assessment.course assessment as class_avg_no_0 %}
+							{% get_class_std_no_0 assessment.course assessment as class_std_no_0 %}
+							<h4> <b>Average Score</b> (excluding 0s): {{ class_avg_no_0 }}&nbsp;&nbsp;&nbsp;&nbsp;  <b>Standard Deviation:</b> {{ class_std_no_0 }}</h4>
 							{% get_class_average assessment.course assessment as class_avg %}
-							<h4> <b>Average Score:</b> {{ class_avg }} </h4>
+							<h4> <b>Average Score</b> (including 0s): {{ class_avg }} </h4>
+							
 
 							<!-- ********************the following is for the collapse style to show info******************** -->
 							<div style="margin-top: 2%; margin-bottom: 2%;">
@@ -385,7 +392,7 @@
 									<div class="card-header" id="headingTwo_@{{ assessment.id }}">
 										<h5 class="mb-0">
 											<button style="color: #6C63FF;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo_@{{ assessment.id }}" aria-expanded="false" aria-controls="collapseTwo_@{{ assessment.id }}">
-												Students who have not completed the assessment
+												Students who did not submit (automatically receive 0)
 											</button>
 										</h5>
 									</div>

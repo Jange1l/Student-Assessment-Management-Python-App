@@ -5,6 +5,7 @@ from assessment.models import Assessment, Question, Result_set
 from account.models import User
 
 import numpy as np
+from math import isnan
 
 register = template.Library()
 
@@ -12,22 +13,30 @@ register = template.Library()
 @register.simple_tag
 def get_class_average(course, assessment):
     """Returns the average score of the class"""
-    result_set_list = []
-    for team in Team.objects.filter(course=course).all():
-        for result_set in Result_set.objects.filter(team=team).all():
-            if result_set in assessment.result_sets.all(): # check if this result_set is under this assessment
-                result_set_list.append(result_set)
-    return round(np.mean([result_set.get_overall_average() for result_set in result_set_list]), 2)
+    return round(np.mean([result_set.get_overall_average() for result_set in assessment.result_sets.all()]), 2)
+
+
+@register.simple_tag
+def get_class_avg_no_0(course, assessment):
+    """Returns the average score of the class (excluding 0s)"""
+    scores = [result_set.get_overall_avg_no_0() for result_set in assessment.result_sets.all()]
+    scores_no_nan = [score for score in scores if not isnan(score)]
+    return round(np.mean(scores_no_nan), 2)
+
+
+@register.simple_tag
+def get_class_std_no_0(course, assessment):
+    """Returns the standard deviation of the class (excluding 0s)"""
+    scores = [result_set.get_overall_avg_no_0() for result_set in assessment.result_sets.all()]
+    scores_no_nan = [score for score in scores if not isnan(score)]
+    return round(np.std(scores_no_nan, ddof=1), 2)
 
 
 
 @register.simple_tag
 def get_team_average(team, assessment):
     """Returns the average score of the team"""
-    result_set_list = []
-    for result_set in Result_set.objects.filter(team=team).all():
-            if result_set in assessment.result_sets.all(): # check if this result_set is under this assessment
-                result_set_list.append(result_set)
+    result_set_list = [result_set for result_set in assessment.result_sets.filter(team=team).all()]
     return round(np.mean([result_set.get_overall_average() for result_set in result_set_list]), 2)
 
 
