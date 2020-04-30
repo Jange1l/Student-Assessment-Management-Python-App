@@ -44,8 +44,10 @@
 
 **Eval_student App:**
   - student dashboard page
-  - peer assessments page :arrow_right: answer assessment page
-  - completed assessments page
+  - peer assessments page 
+    - :arrow_right: answer assessment page
+    - :arrow_right: edit answers
+  - results page
  
  
 **Eval_professor App:**
