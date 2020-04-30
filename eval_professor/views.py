@@ -385,4 +385,17 @@ def update_dates(request, assessment_id):
         assessment.save()
 
     return all_assessments(request) # refresh page
+
+
+# Close assessment and release results
+def close_and_release(request, assessment_id):
+    assessment = get_object_or_404(Assessment, pk=assessment_id) # get the assessment instance
     
+    if assessment.start_date > datetime.datetime.now().date():
+        messages.error(request, "Error: Cannot close an assessment that has not started")
+        return all_assessments(request)
+
+    assessment.open_status = False # when this is False, results will be released on student site
+    assessment.save()
+    messages.error(request, "Assessment closed and results are now visible to students")
+    return all_assessments(request) # refresh page
