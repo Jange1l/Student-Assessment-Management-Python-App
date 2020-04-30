@@ -4,7 +4,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 # models imported from other apps
 from registration.models import Course, Team
-from assessment.models import Assessment, Question
+from assessment.models import Assessment, Question, Answer, Result_set
 from account.models import User
 
 # import Python packages
@@ -397,5 +397,65 @@ def close_and_release(request, assessment_id):
 
     assessment.open_status = False # when this is False, results will be released on student site
     assessment.save()
+
+    # All students who did not complete the survey by this time
+    # will auto receive 0
+    # overriding what their teammates gave them
+    not_completed_students = [student for student in assessment.course.students.all() if student not in assessment.completed_students.all()]
+
+    for student in not_completed_students:
+
+        if len(assessment.result_sets.filter(student=student)) == 0: # if such Result_set does not exist, create one
+            for team in Team.objects.filter(course=assessment.course):
+                if student in team.student.all():
+                    the_team = team # team found
+                    break
+            # create the result_set
+            result_set = Result_set(
+                                student = student,
+                                team = the_team,            
+                        )
+            result_set.save()
+
+            for evaluator in team.student.all():
+                if evaluator != student:
+                    # add answers
+                    for question in assessment.questions.all():
+                        # create answer instances 
+                        if question.type_answer == question.TYPE_Rating:
+                            answer = Answer(
+                                        question = question,
+                                        evaluator = evaluator,
+                                        team_member = student,
+                                        answer_text = None,
+                                        answer_rating = 0,
+                                    )
+                            answer.save()
+                            # add the answer to the Result_set.rating_answers
+                            result_set.rating_answers.add(answer)
+                            result_set.save()
+                        else:
+                            answer = Answer(
+                                        question = question,
+                                        evaluator = evaluator,
+                                        team_member = student,
+                                        answer_text = None,
+                                        answer_rating = None,
+                                    )
+                            answer.save()
+                            # add the answer to the Result_set.text_answers
+                            result_set.text_answers.add(answer)
+                            result_set.save()
+            # add the Result_set to this assessment
+            assessment.result_sets.add(result_set)
+            assessment.save()
+
+        result_set = assessment.result_sets.filter(student=student).first()
+        for answer in result_set.rating_answers.all():
+            answer.answer_rating = 0
+            answer.save()
+        result_set.save()
+        assessment.save()
+
     messages.error(request, "Assessment closed and results are now visible to students")
     return all_assessments(request) # refresh page

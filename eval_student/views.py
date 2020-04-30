@@ -81,16 +81,20 @@ def submit_assessment(request, assessment_id):
 
     # create result_set instances to store answers
     for each_student in evaluated:
-        if len(Result_set.objects.filter(student=each_student, team=evaluated_team)) == 0: # if such Result_set does not exist, create one
+        if len(assessment.result_sets.filter(student=each_student, team=evaluated_team)) == 0: # if such Result_set does not exist in this assessment, create one
             result_set = Result_set(
                                 student = each_student,
                                 team = evaluated_team,            
                         )
             result_set.save()
+            # add the Result_set to this assessment
+            assessment.result_sets.add(result_set)
+            assessment.save()
+
 
     for student_evaluated in evaluated:
         # find the result_set of the student being evaluated
-        result_set = Result_set.objects.filter(student=student_evaluated, team=evaluated_team).first()
+        result_set = assessment.result_sets.filter(student=student_evaluated, team=evaluated_team).first()
         for question in questions:
             name_for_post = "q_@{}{}".format(student_evaluated.eagle_id, question.id)
             ans = request.POST[name_for_post]
@@ -121,8 +125,7 @@ def submit_assessment(request, assessment_id):
                 result_set.text_answers.add(answer)
                 result_set.save()
             
-        # add the Result_set to this assessment
-        assessment.result_sets.add(result_set)
+        # save assessment
         assessment.save()
  
     # add the current user to the set of users who have completed this assessment
