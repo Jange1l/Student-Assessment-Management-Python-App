@@ -23,7 +23,7 @@
 		{% if assessment_list|length > 0 %}
 			<div class="row">
 				{% for assessment in assessment_list %}
-					{% if not assessment.is_missed and request.user not in assessment.completed_students.all and not assessment.is_open %}
+					{% if not assessment.is_missed and request.user not in assessment.completed_students.all and assessment.is_open %}
 						{% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
 						<div class="col grid-box">
 							<!-- name and course  -->

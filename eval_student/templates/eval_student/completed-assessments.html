@@ -62,9 +62,9 @@
 													<p>Question {{forloop.counter}}: {{ question.question_text }} <b> Score: </b> {{ per_q_avg }}</p>
 												{% else %}
 						
-													{% get_free_response personal_result question.id as free_response_text %}
+													{% get_free_response result_set question.id as free_response_text %}
 													<!-- print  -->
-													<p>Question {{forloop.counter}}: {{ free_response_text }}</p>
+													<p>Question {{forloop.counter}}: {{ question.question_text }} <b>Responses from your teammates: </b> {{ free_response_text }}</p>
 												{% endif %}
 												
 											{% endfor %}

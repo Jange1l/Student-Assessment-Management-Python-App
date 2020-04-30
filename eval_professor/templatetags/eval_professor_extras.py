@@ -56,7 +56,7 @@ def get_per_question_average(result_set, q_id):
 def get_free_response(result_set, q_id):
         text = ''
         for answer in result_set.text_answers.all():
-            if answer.question.id == q_id:
+            if answer.question.id == q_id and answer.get_answer() != None:
                 text += answer.get_answer()
                 text += ';'
         return text
