@@ -4,7 +4,6 @@ from registration.models import Course, Team
 from assessment.models import Assessment, Question, Result_set
 from account.models import User
 
-import numpy as np
 
 register = template.Library()
 

@@ -128,4 +128,44 @@ def submit_assessment(request, assessment_id):
     assessment.completed_students.add(request.user)
     assessment.save()
 
-    return completed_assessments(request)
+    return peer_assessments(request) # refresh the page
+
+
+# Edit - on peer assessment page
+def edit_assessment(request, assessment_id):
+    assessment = Assessment.objects.get(pk=assessment_id) # the assessment object
+    questions = assessment.questions.all() # set of questions in this assessment
+    teams = Team.objects.filter(course=assessment.course) # set of teams in this course
+
+    # Find the list of people who will be evaluated
+    evaluated_team = None
+    evaluated = []
+    for team in teams:
+        if request.user in team.student.all():
+            evaluated_team = team
+            for each in team.student.all():
+                if each != request.user:
+                    evaluated.append(each)
+
+    for student_evaluated in evaluated:
+        # find the result_set of the student being evaluated
+        result_set = Result_set.objects.filter(student=student_evaluated, team=evaluated_team).first()
+        for question in questions:
+            name_for_post = "q_@{}{}".format(student_evaluated.eagle_id, question.id)
+            ans = request.POST[name_for_post]
+
+            # update answer instances 
+            if question.type_answer == question.TYPE_Rating:
+                answer = result_set.rating_answers.filter(question=question).first()
+                answer.answer_rating = ans
+                answer.save()
+            else:
+                answer = result_set.text_answers.filter(question=question).first()
+                answer.answer_text = ans
+                answer.save()
+        result_set.save()
+            
+        # update assessment
+        assessment.save()
+
+    return peer_assessments(request)

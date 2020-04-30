@@ -11,5 +11,6 @@ urlpatterns = [
 
     # functions
     path('submit_assessment/<int:assessment_id>/', views.submit_assessment, name='submit_assessment'),
+    path('edit_assessment/<int:assessment_id>/', views.edit_assessment, name='edit_assessment'),
     
 ]
