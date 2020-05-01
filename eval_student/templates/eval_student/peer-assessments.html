@@ -161,7 +161,7 @@
 			{% if assessment_list|length > 0 %}
 				<div class="row">
 					{% for assessment in assessment_list %}
-						{% if assessment.is_missed or not assessment.is_open %}
+						{% if assessment.is_missed %}
 							{% if forloop.counter0|divisibleby:3 and not forloop.first %}<div class="w-100"></div>{% endif %}
 							<div class="col grid-box">
 								<!-- name and course  -->
