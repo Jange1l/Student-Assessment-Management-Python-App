@@ -22,9 +22,10 @@ def professor_dashboard(request):
 def all_assessments(request):
     team_list = Team.objects.all()
     assessment_list = Assessment.objects.all()
+    filtered_list = [assessment for assessment in assessment_list.all() if request.user in assessment.course.professors.all()]
     context = {
         'team_list': team_list,
-        'assessment_list': assessment_list,
+        'assessment_list': filtered_list,
     }
     return render(request, 'eval_professor/all-assessments.html', context = context)
 
