@@ -320,7 +320,8 @@ def make_new_assessment(request):
         # Add questions to the assessment
         idx = 0
         more_questions = True
-        while more_questions: # keeps checking if more questions
+        # while more_questions: # keeps checking if more questions
+        for idx in range(1000):
             try:
                 question_text = request.POST['question-{}'.format(idx)]
                 answer_type = request.POST['answer type-{}'.format(idx)]
@@ -329,7 +330,7 @@ def make_new_assessment(request):
                 answer_type = False
             if question_text == False: # if no more questions - break
                 more_questions = False
-                break
+                # break
             else:
                 # Check which answer type
                 if answer_type == "Free Response":
@@ -345,8 +346,8 @@ def make_new_assessment(request):
                 # Save this new question into the assessment's ManytoMany field
                 assessment.questions.add(new_question)
                 assessment.save()
-            # update counter
-            idx += 1
+            # # update counter
+            # idx += 1
 
         messages.error(request, 'New assessment created')
     # ---------------if ends here-------------
