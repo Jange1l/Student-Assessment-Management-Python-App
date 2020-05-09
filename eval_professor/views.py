@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
+from django.http import HttpResponse
 
 # models imported from other apps
 from registration.models import Course, Team
@@ -10,6 +11,7 @@ from account.models import User
 # import Python packages
 from re import search as regex_search
 import datetime
+import csv
 
 
 
@@ -461,3 +463,15 @@ def close_and_release(request, assessment_id):
 
     messages.error(request, "Assessment closed and results are now visible to students")
     return all_assessments(request) # refresh page
+
+
+def download_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+    writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+
+    messages.error(request, "CSV file downloaded.")
+    return response
