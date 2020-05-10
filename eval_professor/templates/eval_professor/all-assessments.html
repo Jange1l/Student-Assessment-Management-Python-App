@@ -504,9 +504,11 @@
 							<!-- collapse - info END -->
 
 							<hr>
-							<button type="button" class="btn btn-primary buttons purple">
-								Download results in Excel spreadsheet
-							</button>
+							<form>
+								<button formaction="{% url 'download_csv' %}" class="btn btn-primary buttons purple">
+									Download results in Excel spreadsheet
+								</button>
+							</form>
 							
 							<button type="button" class="btn btn-secondary float-right" disabled>
 								Closed
@@ -518,7 +520,7 @@
 					{% endif %}
 				{% endfor %}
 			{% else %}
-				No current assessments.
+				No available assessments.
 			{% endif %}
 		</div>
 

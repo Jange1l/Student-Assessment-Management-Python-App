@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.utils.datastructures import MultiValueDictKeyError
+from django.http import HttpResponse
 
 # models imported from other apps
 from registration.models import Course, Team
@@ -10,6 +11,7 @@ from account.models import User
 # import Python packages
 from re import search as regex_search
 import datetime
+import csv
 
 
 
@@ -22,9 +24,10 @@ def professor_dashboard(request):
 def all_assessments(request):
     team_list = Team.objects.all()
     assessment_list = Assessment.objects.all()
+    filtered_list = [assessment for assessment in assessment_list.all() if request.user in assessment.course.professors.all()]
     context = {
         'team_list': team_list,
-        'assessment_list': assessment_list,
+        'assessment_list': filtered_list,
     }
     return render(request, 'eval_professor/all-assessments.html', context = context)
 
@@ -319,7 +322,8 @@ def make_new_assessment(request):
         # Add questions to the assessment
         idx = 0
         more_questions = True
-        while more_questions: # keeps checking if more questions
+        # while more_questions: # keeps checking if more questions
+        for idx in range(1000):
             try:
                 question_text = request.POST['question-{}'.format(idx)]
                 answer_type = request.POST['answer type-{}'.format(idx)]
@@ -328,7 +332,7 @@ def make_new_assessment(request):
                 answer_type = False
             if question_text == False: # if no more questions - break
                 more_questions = False
-                break
+                # break
             else:
                 # Check which answer type
                 if answer_type == "Free Response":
@@ -344,8 +348,8 @@ def make_new_assessment(request):
                 # Save this new question into the assessment's ManytoMany field
                 assessment.questions.add(new_question)
                 assessment.save()
-            # update counter
-            idx += 1
+            # # update counter
+            # idx += 1
 
         messages.error(request, 'New assessment created')
     # ---------------if ends here-------------
@@ -459,3 +463,15 @@ def close_and_release(request, assessment_id):
 
     messages.error(request, "Assessment closed and results are now visible to students")
     return all_assessments(request) # refresh page
+
+
+def download_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+    writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+
+    messages.error(request, "CSV file downloaded.")
+    return response
