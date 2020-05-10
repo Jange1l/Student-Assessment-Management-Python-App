@@ -12,6 +12,8 @@ from account.models import User
 from re import search as regex_search
 import datetime
 import csv
+import smtplib
+from email.message import EmailMessage
 
 
 
@@ -475,3 +477,36 @@ def download_csv(request):
 
     messages.error(request, "CSV file downloaded.")
     return response
+
+def send_email_reminders(request):
+    print("Send email reminders")
+    EMAIL_ADDRESS = 'theEaglesInstructor@gmail.com'
+    EMAIL_PASSWORD = 'jiujiu1016'
+    #Check for students who havent completed assesment
+    assessment_list = Assessment.objects.all()
+    recipients =  []
+
+    for assessment in assessment_list:
+        if assessment.is_current and assessment.is_open:
+            for student in assessment.course.students.all():
+                if student not in assessment.completed_students.all():
+                    recipients.append(student)
+
+            for r in recipients:
+                print(r.email)
+                msg = EmailMessage()
+                msg['Subject'] = 'New Assessment'
+                msg['From'] = EMAIL_ADDRESS
+                msg['To'] = r.email
+                print("Hello "+ r.first_name + ", please complete " + assessment.name)
+                msg.set_content("Hello "+ r.first_name + ", please complete " + assessment.name)
+
+                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+                    smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+                    #smtp.send_message(msg)
+                    print("Email reminder sent")
+
+
+    #Collect emails of students 
+
+    #Send emails to students 
