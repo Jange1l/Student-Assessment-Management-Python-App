@@ -56,5 +56,5 @@ def check_for_new_assesments():
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(check_for_new_assesments, 'interval', seconds=10)
+    scheduler.add_job(check_for_new_assesments, 'interval', days=1)
     scheduler.start()
