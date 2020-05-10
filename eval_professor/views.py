@@ -12,8 +12,13 @@ from account.models import User
 from re import search as regex_search
 import datetime
 import csv
+<<<<<<< HEAD
 import smtplib
 from email.message import EmailMessage
+=======
+import numpy as np
+from math import isnan
+>>>>>>> e481bdaa03bc634817ed22a6ce16d335587ecc09
 
 
 
@@ -467,14 +472,48 @@ def close_and_release(request, assessment_id):
     return all_assessments(request) # refresh page
 
 
-def download_csv(request):
+def download_csv(request, assessment_id):
+    assessment = get_object_or_404(Assessment, pk=assessment_id) # get the assessment instance
+    file_name = "Results_" + assessment.name
+
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+    response['Content-Disposition'] = 'attachment; filename="{}.csv"'.format(file_name)
 
     writer = csv.writer(response)
-    writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
-    writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+    first_row = ['Eagle ID', 'Student Name']
+    for question in assessment.questions.all():
+        first_row.append(question.question_text)
+    first_row.append('Average')
+    writer.writerow(first_row)
 
+    for result_set in assessment.result_sets.all():
+        row = []
+        # add name and eagle id
+        row.append(result_set.student.eagle_id)
+        row.append(result_set.student.get_full_name())
+
+        for question in assessment.questions.all():
+            if question.type_answer == question.TYPE_Rating:
+                # add per-question score(average)
+                scores = [answer.answer_rating for answer in result_set.rating_answers.all() if answer.question.id == question.id]
+                row.append(round(np.mean(scores), 2))
+            else:
+                # add free response answers
+                text = ''
+                for answer in result_set.text_answers.all():
+                    if answer.question.id == question.id and answer.get_answer() != None:
+                        text += answer.get_answer()
+                        text += '\n'
+                row.append(text)
+
+        # add average
+        average = result_set.get_overall_avg_no_0()
+        if isnan(average):
+            average = 0
+        row.append(average)
+        writer.writerow(row)
+
+<<<<<<< HEAD
     messages.error(request, "CSV file downloaded.")
     return response
 
@@ -510,3 +549,6 @@ def send_email_reminders(request):
     #Collect emails of students 
 
     #Send emails to students 
+=======
+    return response
+>>>>>>> e481bdaa03bc634817ed22a6ce16d335587ecc09

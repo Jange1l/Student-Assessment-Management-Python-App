@@ -505,7 +505,7 @@
 
 							<hr>
 							<form>
-								<button formaction="{% url 'download_csv' %}" class="btn btn-primary buttons purple">
+								<button formaction="{% url 'download_csv' assessment_id=assessment.id %}" class="btn btn-primary buttons purple">
 									Download results in Excel spreadsheet
 								</button>
 							</form>
