@@ -12,13 +12,13 @@ from account.models import User
 from re import search as regex_search
 import datetime
 import csv
-<<<<<<< HEAD
+
 import smtplib
 from email.message import EmailMessage
-=======
+
 import numpy as np
 from math import isnan
->>>>>>> e481bdaa03bc634817ed22a6ce16d335587ecc09
+
 
 
 
@@ -513,9 +513,8 @@ def download_csv(request, assessment_id):
         row.append(average)
         writer.writerow(row)
 
-<<<<<<< HEAD
-    messages.error(request, "CSV file downloaded.")
     return response
+
 
 def send_email_reminders(request):
     print("Send email reminders")
@@ -549,6 +548,4 @@ def send_email_reminders(request):
     #Collect emails of students 
 
     #Send emails to students 
-=======
     return response
->>>>>>> e481bdaa03bc634817ed22a6ce16d335587ecc09
