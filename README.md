@@ -69,3 +69,8 @@
 **General**
 - Admin can create student and instructor accounts with Eagle ID, username, email, and password, which enables certain permissions
 - Users can access their accounts with their username and password
+- Instructor can login see their current and past courses and their respective assessments
+- Instructor can create new assessment, assign teams, and set start/end dates
+- Instructor has permission to determine when to publish and push results to students
+- Student can login see their current and past courses and their respective assessments
+- Student can edit open assessments and change their answers until the deadline
