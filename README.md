@@ -65,3 +65,6 @@
   6. Result_set Model
   7. Assessment Model
   
+## Tests
+- Admin can create student and instructor accounts, enabling certain permissions
+- Users can access their accounts with their username and password
