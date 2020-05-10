@@ -516,36 +516,37 @@ def download_csv(request, assessment_id):
     return response
 
 
-def send_email_reminders(request):
+def send_email_reminders(request, assessment_id):
+    assessment = get_object_or_404(Assessment, pk=assessment_id) # get the assessment instance
+
     print("Send email reminders")
     EMAIL_ADDRESS = 'theEaglesInstructor@gmail.com'
     EMAIL_PASSWORD = 'jiujiu1016'
     #Check for students who havent completed assesment
-    assessment_list = Assessment.objects.all()
-    recipients =  []
+    recipients = []
 
-    for assessment in assessment_list:
-        if assessment.is_current and assessment.is_open:
-            for student in assessment.course.students.all():
-                if student not in assessment.completed_students.all():
-                    recipients.append(student)
 
-            for r in recipients:
-                print(r.email)
-                msg = EmailMessage()
-                msg['Subject'] = 'New Assessment'
-                msg['From'] = EMAIL_ADDRESS
-                msg['To'] = r.email
-                print("Hello "+ r.first_name + ", please complete " + assessment.name)
-                msg.set_content("Hello "+ r.first_name + ", please complete " + assessment.name)
+    if assessment.is_current and assessment.is_open:
+        for student in assessment.course.students.all():
+            if student not in assessment.completed_students.all():
+                recipients.append(student)
 
-                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-                    smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-                    #smtp.send_message(msg)
-                    print("Email reminder sent")
+    for r in recipients:
+        print(r.email)
+        msg = EmailMessage()
+        msg['Subject'] = 'New Assessment'
+        msg['From'] = EMAIL_ADDRESS
+        msg['To'] = r.email
+        print("Hello "+ r.first_name + ", please complete " + assessment.name)
+        msg.set_content("Hello "+ r.first_name + ", please complete " + assessment.name)
 
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            smtp.send_message(msg)
+            print("Email reminder sent")
 
     #Collect emails of students 
 
     #Send emails to students 
-    return response
+    messages.error(request, "Reminders sent successfully")
+    return all_assessments(request)

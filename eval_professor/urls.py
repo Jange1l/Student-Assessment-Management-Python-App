@@ -31,7 +31,7 @@ urlpatterns = [
     path('update_dates/<int:assessment_id>/', views.update_dates, name='update_dates'),
     path('close_and_release/<int:assessment_id>/', views.close_and_release, name='close_and_release'),
     path('download_csv/<int:assessment_id>/', views.download_csv, name='download_csv'),
-    path('send_email_reminders', views.send_email_reminders, name='send_email_reminders'),
+    path('send_email_reminders/<int:assessment_id>/', views.send_email_reminders, name='send_email_reminders'),
     path('download_csv/<int:assessment_id>/', views.download_csv, name='download_csv'),
     
 ]
