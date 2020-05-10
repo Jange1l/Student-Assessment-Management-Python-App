@@ -66,5 +66,6 @@
   7. Assessment Model
   
 ## Tests
-- Admin can create student and instructor accounts, enabling certain permissions
+**General**
+- Admin can create student and instructor accounts with Eagle ID, username, email, and password, which enables certain permissions
 - Users can access their accounts with their username and password
