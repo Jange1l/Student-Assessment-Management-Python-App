@@ -534,11 +534,11 @@ def send_email_reminders(request, assessment_id):
     for r in recipients:
         print(r.email)
         msg = EmailMessage()
-        msg['Subject'] = 'New Assessment'
+        msg['Subject'] = 'REMINDER: Complete {} [DO NOT REPLY]'.format(assessment.name)
         msg['From'] = EMAIL_ADDRESS
         msg['To'] = r.email
         print("Hello "+ r.first_name + ", please complete " + assessment.name)
-        msg.set_content("Hello "+ r.first_name + ", please complete " + assessment.name)
+        msg.set_content("Hi {}, please complete {}.".format(r.first_name, assessment.name))
 
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
             smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
